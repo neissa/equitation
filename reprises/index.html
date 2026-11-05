@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Reprises Club Grand Prix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="repsel">
+      <label for="repSelect">Reprise</label>
+      <select id="repSelect"></select>
+    </div>
+    <div class="eyebrow"><span id="disc">Dressage</span> · <span id="repLbl">Club 3 Grand Prix</span> · rectangle <span id="sizeLbl">60 × 20</span></div>
+    <h1>Apprendre ma reprise, figure par figure</h1>
+    <p>Lance l'animation : le cheval parcourt chaque figure puis s'arrête. Relis, visualise, et passe à la suivante. Couleur du tracé = allure. <span id="repInfo"></span></p>
+    <p id="phNote" hidden><b>Lettres en pointillé (V, S, R, P, L, I) :</b> elles n'existent pas sur un 40 × 20. Elles sont placées à leur point repère, à mi-chemin entre la lettre de coin et E ou B (et entre X et G ou D pour I et L).</p>
+  </header>
+
+  <div class="stage">
+    <div class="arena-col">
+      <svg id="arena" viewBox="-3.2 -3.4 26.4 68.6" role="img" aria-label="Carrière avec le tracé de la reprise"></svg>
+      <div class="legend">
+        <span class="lg-walk"><i></i>Pas</span>
+        <span class="lg-trot"><i></i>Trot</span>
+        <span class="lg-canter"><i></i>Galop</span>
+        <span id="lgExtra" class="lg-extra"></span>
+        <span><i class="lg-halt"></i>Arrêt</span>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="controls">
+        <button class="btn" id="prev" aria-label="Figure précédente">◀ Préc.</button>
+        <button class="btn primary" id="play">▶ Lancer</button>
+        <button class="btn" id="next" aria-label="Figure suivante">Suiv. ▶</button>
+        <select id="speed" aria-label="Vitesse">
+          <option value="0.5">× 0,5 (lent)</option>
+          <option value="1" selected>× 1 (réel)</option>
+          <option value="1.5">× 1,5</option>
+          <option value="2">× 2</option>
+        </select>
+      </div>
+      <div class="toggles">
+        <label><input type="checkbox" id="stopEach" checked> Pause après chaque figure</label>
+        <label><input type="checkbox" id="hideText"> Mode mémoire (texte caché)</label>
+        <label><input type="checkbox" id="showAll" checked> Voir tout le tracé</label>
+        <label id="size40Lbl"><input type="checkbox" id="size40"> <b>Carrière 40 × 20</b> <span id="size40Note"></span></label>
+      </div>
+
+      <section class="card" id="card" aria-live="polite">
+        <div class="fighead">
+          <div class="fignum" id="fignum">1<small> / 22</small></div>
+          <span class="gait" id="gait">Trot de travail</span>
+        </div>
+        <div class="status" id="status">Prêt — appuie sur Lancer.</div>
+        <ul class="steps" id="steps"></ul>
+        <button class="btn reveal" id="reveal" hidden>Révéler le texte</button>
+        <h2>Ce que le juge regarde</h2>
+        <ul class="ideas" id="ideas"></ul>
+        <div class="next" id="nextFig"></div>
+      </section>
+    </div>
+  </div>
+
+  <nav class="chips" id="chips" aria-label="Figures de la reprise"></nav>
+
+  <section class="notes">
+    <h2>Notes d'ensemble (coef.)</h2>
+    <table id="ensTable"></table>
+    <p><span id="repScore"></span> <span id="repNotes"></span></p>
+  </section>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

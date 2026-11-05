@@ -1,156 +1,3 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Reprises Club Grand Prix</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
-<style>
-/* Layout: carrière verticale (A en bas, C en haut) à gauche, fiche de la figure à droite ; frise des 22 figures dessous */
-:root{
-  --bg:#eef1ec; --panel:#ffffff; --ink:#1c2620; --muted:#5a685f; --line:#d3dacf;
-  --accent:#22345e; --accent-soft:#dde3f1;
-  --walk:#4f8a2e; --trot:#2a67ad; --canter:#cf6d12;
-  --display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
-  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
-}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#111618; --panel:#192125; --ink:#e6ece7; --muted:#9aa8a0; --line:#2b363a;
-  --accent:#a9bcf0; --accent-soft:#25304a;
-  --walk:#86c25e; --trot:#6fa6ec; --canter:#f19a45; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#111618; --panel:#192125; --ink:#e6ece7; --muted:#9aa8a0; --line:#2b363a;
-  --accent:#a9bcf0; --accent-soft:#25304a;
-  --walk:#86c25e; --trot:#6fa6ec; --canter:#f19a45; color-scheme:dark}
-
-*{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45}
-.wrap{max-width:980px;margin:0 auto;padding-inline:16px;padding-block:18px 40px;display:flex;flex-direction:column;gap:16px}
-header .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
-.repsel{display:flex;flex-direction:column;gap:4px;margin:0 0 14px;max-width:420px}
-.repsel label{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
-#repSelect{width:100%;font-family:var(--display);font-weight:800;font-size:18px;padding:10px 12px;border:2px solid var(--accent);border-radius:12px;background:var(--panel);color:var(--ink);min-height:48px;cursor:pointer}
-#repSelect:focus-visible{outline:3px solid var(--trot);outline-offset:2px}
-h1{font-family:var(--display);font-weight:800;font-size:clamp(24px,5vw,36px);line-height:1.05;margin:4px 0 6px;text-wrap:balance}
-header p{margin:0;color:var(--muted);max-width:62ch}
-
-.stage{display:grid;grid-template-columns:minmax(130px,38%) 1fr;gap:14px;align-items:start}
-@media (min-width:760px){.stage{grid-template-columns:330px 1fr;gap:24px}}
-.arena-col{display:flex;flex-direction:column;gap:8px;position:sticky;top:env(safe-area-inset-top,0px)}
-#arena{width:100%;height:auto;display:block;max-height:78vh}
-.legend{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11.5px;color:var(--muted)}
-.legend span{display:inline-flex;align-items:center;gap:5px}
-.legend i{display:inline-block;width:16px;height:0;border-top:3px solid currentColor}
-
-.side{display:flex;flex-direction:column;gap:12px;min-width:0}
-.controls{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-button,select{font:inherit;color:var(--ink)}
-.btn{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px 11px;cursor:pointer;font-weight:700;min-height:40px}
-.btn:hover{border-color:var(--accent)}
-.btn.primary{background:var(--accent);color:var(--panel);border-color:var(--accent);min-width:92px}
-.btn:focus-visible,.chip:focus-visible,select:focus-visible{outline:3px solid var(--trot);outline-offset:2px}
-select{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px;min-height:40px}
-.toggles{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
-.toggles label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
-
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
-.fighead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.fignum{font-family:var(--display);font-weight:800;font-size:40px;line-height:.9;color:var(--accent);font-variant-numeric:tabular-nums}
-.fignum small{font-size:14px;color:var(--muted);font-weight:600}
-.gait{font-size:12.5px;font-weight:700;padding:3px 9px;border-radius:99px;color:#fff;background:var(--trot)}
-.gait.walk{background:var(--walk)} .gait.canter{background:var(--canter)} .gait.none{background:var(--muted)}
-.status{font-size:13px;color:var(--muted);min-height:1.2em}
-.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;transition:filter .2s}
-.steps li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
-.lt{font-family:var(--display);font-weight:800;font-size:14px;min-width:42px;text-align:center;padding:3px 6px;border-radius:7px;background:var(--accent-soft);color:var(--accent)}
-.hidden-text .steps{filter:blur(6px);user-select:none}
-.reveal{align-self:flex-start;font-size:13px}
-h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:2px 0 0}
-.ideas{margin:0;padding-left:18px;color:var(--ink)}
-.next{font-size:13.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:9px}
-.next b{color:var(--ink)}
-
-.chips{display:grid;grid-template-columns:repeat(var(--cols,11),1fr);gap:5px}
-.chip{position:relative;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 0;font-weight:700;font-variant-numeric:tabular-nums;cursor:pointer;overflow:hidden;font-size:13px}
-.chip.done{color:var(--muted)}
-.chip.cur{border-color:var(--accent);color:var(--accent)}
-.chip .bar{position:absolute;left:0;bottom:0;height:3px;background:var(--accent);width:0}
-
-.notes{font-size:13.5px;color:var(--muted)}
-.notes table{border-collapse:collapse;width:100%;max-width:520px;margin-top:6px}
-.notes td{padding:4px 0;border-bottom:1px solid var(--line);vertical-align:top}
-.notes td:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);font-weight:700;padding-left:10px}
-.notes h2{margin-top:6px}
-#size40Lbl.off{opacity:.5;cursor:not-allowed}
-.legend svg{width:22px;height:6px;flex:none}
-</style>
-
-<div class="wrap">
-  <header>
-    <div class="repsel">
-      <label for="repSelect">Reprise</label>
-      <select id="repSelect"></select>
-    </div>
-    <div class="eyebrow">Dressage · <span id="repLbl">Club 3 Grand Prix</span> · rectangle <span id="sizeLbl">60 × 20</span></div>
-    <h1>Apprendre ma reprise, figure par figure</h1>
-    <p>Lance l'animation : le cheval parcourt chaque figure puis s'arrête. Relis, visualise, et passe à la suivante. Couleur du tracé = allure. <span id="repInfo"></span></p>
-    <p id="phNote" hidden><b>Lettres en pointillé (V, S, R, P, L, I) :</b> elles n'existent pas sur un 40 × 20. Elles sont placées à leur point repère, à mi-chemin entre la lettre de coin et E ou B (et entre X et G ou D pour I et L).</p>
-  </header>
-
-  <div class="stage">
-    <div class="arena-col">
-      <svg id="arena" viewBox="-3.2 -3.4 26.4 68.6" role="img" aria-label="Carrière avec le tracé de la reprise"></svg>
-      <div class="legend">
-        <span style="color:var(--walk)"><i></i>Pas</span>
-        <span style="color:var(--trot)"><i></i>Trot</span>
-        <span style="color:var(--canter)"><i></i>Galop</span>
-        <span id="lgExtra" style="display:contents"></span>
-        <span><i style="border-top:0;border-left:3px solid currentColor;height:10px;width:0"></i>Arrêt</span>
-      </div>
-    </div>
-
-    <div class="side">
-      <div class="controls">
-        <button class="btn" id="prev" aria-label="Figure précédente">◀ Préc.</button>
-        <button class="btn primary" id="play">▶ Lancer</button>
-        <button class="btn" id="next" aria-label="Figure suivante">Suiv. ▶</button>
-        <select id="speed" aria-label="Vitesse">
-          <option value="0.5">× 0,5 (lent)</option>
-          <option value="1" selected>× 1 (réel)</option>
-          <option value="1.5">× 1,5</option>
-          <option value="2">× 2</option>
-        </select>
-      </div>
-      <div class="toggles">
-        <label><input type="checkbox" id="stopEach" checked> Pause après chaque figure</label>
-        <label><input type="checkbox" id="hideText"> Mode mémoire (texte caché)</label>
-        <label><input type="checkbox" id="showAll" checked> Voir tout le tracé</label>
-        <label id="size40Lbl"><input type="checkbox" id="size40"> <b>Carrière 40 × 20</b> <span id="size40Note"></span></label>
-      </div>
-
-      <section class="card" id="card" aria-live="polite">
-        <div class="fighead">
-          <div class="fignum" id="fignum">1<small> / 22</small></div>
-          <span class="gait" id="gait">Trot de travail</span>
-        </div>
-        <div class="status" id="status">Prêt — appuie sur Lancer.</div>
-        <ul class="steps" id="steps"></ul>
-        <button class="btn reveal" id="reveal" hidden>Révéler le texte</button>
-        <h2>Ce que le juge regarde</h2>
-        <ul class="ideas" id="ideas"></ul>
-        <div class="next" id="nextFig"></div>
-      </section>
-    </div>
-  </div>
-
-  <nav class="chips" id="chips" aria-label="Figures de la reprise"></nav>
-
-  <section class="notes">
-    <h2>Notes d'ensemble (coef.)</h2>
-    <table id="ensTable"></table>
-    <p><span id="repScore"></span> <span id="repNotes"></span></p>
-  </section>
-</div>
-
-<script>
 (()=>{
 // ---------- Lettres (mètres : x 0→20, y 0 = A, 60 = C) ----------
 const LETS={
@@ -724,7 +571,7 @@ function renderPanel(){
   const d=FIGS[curFig-1];
   $('fignum').innerHTML=curFig+'<small> / '+N+'</small>';
   $('steps').innerHTML=d.steps.map(([l,s])=>`<li><span class="lt">${l}</span><span>${s}</span></li>`).join('');
-  $('ideas').innerHTML=d.ideas.map(i=>`<li>${i}</li>`).join('')+'<li style="color:var(--muted)">Note sur 10 · coefficient 1</li>';
+  $('ideas').innerHTML=d.ideas.map(i=>`<li>${i}</li>`).join('')+'<li class="note-line">Note sur 10 · coefficient 1</li>';
   $('nextFig').innerHTML=curFig<N?`Ensuite (fig. ${curFig+1}) : <b>${FIGS[curFig].steps.map(s=>s[0]+' '+s[1].toLowerCase()).join(' · ')}</b>`:'Dernière figure de la reprise.';
   for(const k in boards){const on=d.letters.includes(k);boards[k].r.setAttribute('fill',on?'#22345e':'#ffffff');boards[k].r.setAttribute('fill-opacity',on||!boards[k].ph?1:.55);boards[k].t.setAttribute('fill',on?'#ffffff':(boards[k].ph?'#7a7a7a':'#1d1d1d'))}
   for(const L of lines){const on=L.f===curFig;L.pl.style.opacity=on?1:($('showAll').checked?.22:0);L.pl.setAttribute('stroke-width',on?.5:.36)}
@@ -807,6 +654,7 @@ function applySize(){
 function setRep(key){
   REPKEY=key;REP=REPS[key];FIGS=REP.figs;N=FIGS.length;curFig=1;
   $('repSelect').value=key;
+  $('disc').textContent=REP.group==='cce'?'Dressage du complet (CCE)':'Dressage';
   $('repLbl').textContent=REP.name;$('repInfo').textContent=REP.info;$('repNotes').textContent=REP.notes;$('repScore').innerHTML=REP.score;$('chips').style.setProperty('--cols',Math.ceil(N/2));
   $('lgExtra').innerHTML=REP.legend.map(([d,l])=>`<span><svg viewBox="0 0 4 1" aria-hidden="true"><line x1="0" y1=".5" x2="4" y2=".5" stroke="currentColor" stroke-width=".42" stroke-dasharray="${d}"/></svg>${l}</span>`).join('');
   $('ensTable').innerHTML=REP.ens.map(([l,c])=>`<tr><td>${l}</td><td>${c}</td></tr>`).join('');
@@ -823,6 +671,3 @@ setRep(REPKEY);
 applySize();
 renderPanel();lastFig=curFig;render();requestAnimationFrame(tick);
 })();
-</script>
-
-</body></html>

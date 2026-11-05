@@ -1,0 +1,92 @@
+/* Reset de base : zones sûres (encoche / barre système), élément [hidden], images responsives */
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;padding:0;background:var(--bg)}
+img{max-width:100%}
+[hidden]:not([hidden=until-found i]){display:none!important}
+
+/* Layout: carrière verticale (A en bas, C en haut) à gauche, fiche de la figure à droite ; frise des 22 figures dessous */
+:root{
+  --bg:#eef1ec; --panel:#ffffff; --ink:#1c2620; --muted:#5a685f; --line:#d3dacf;
+  --accent:#22345e; --accent-soft:#dde3f1;
+  --walk:#4f8a2e; --trot:#2a67ad; --canter:#cf6d12;
+  --display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111618; --panel:#192125; --ink:#e6ece7; --muted:#9aa8a0; --line:#2b363a;
+  --accent:#a9bcf0; --accent-soft:#25304a;
+  --walk:#86c25e; --trot:#6fa6ec; --canter:#f19a45; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111618; --panel:#192125; --ink:#e6ece7; --muted:#9aa8a0; --line:#2b363a;
+  --accent:#a9bcf0; --accent-soft:#25304a;
+  --walk:#86c25e; --trot:#6fa6ec; --canter:#f19a45; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45}
+.wrap{max-width:980px;margin:0 auto;padding-inline:16px;padding-block:18px 40px;display:flex;flex-direction:column;gap:16px}
+header .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.repsel{display:flex;flex-direction:column;gap:4px;margin:0 0 14px;max-width:420px}
+.repsel label{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+#repSelect{width:100%;font-family:var(--display);font-weight:800;font-size:18px;padding:10px 12px;border:2px solid var(--accent);border-radius:12px;background:var(--panel);color:var(--ink);min-height:48px;cursor:pointer}
+#repSelect:focus-visible{outline:3px solid var(--trot);outline-offset:2px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(24px,5vw,36px);line-height:1.05;margin:4px 0 6px;text-wrap:balance}
+header p{margin:0;color:var(--muted);max-width:62ch}
+
+.stage{display:grid;grid-template-columns:minmax(130px,38%) 1fr;gap:14px;align-items:start}
+@media (min-width:760px){.stage{grid-template-columns:330px 1fr;gap:24px}}
+.arena-col{display:flex;flex-direction:column;gap:8px;position:sticky;top:env(safe-area-inset-top,0px)}
+#arena{width:100%;height:auto;display:block;max-height:78vh}
+.legend{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{display:inline-block;width:16px;height:0;border-top:3px solid currentColor}
+
+.side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.controls{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+button,select{font:inherit;color:var(--ink)}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px 11px;cursor:pointer;font-weight:700;min-height:40px}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--panel);border-color:var(--accent);min-width:92px}
+.btn:focus-visible,.chip:focus-visible,select:focus-visible{outline:3px solid var(--trot);outline-offset:2px}
+select{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px;min-height:40px}
+.toggles{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.toggles label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.fighead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.fignum{font-family:var(--display);font-weight:800;font-size:40px;line-height:.9;color:var(--accent);font-variant-numeric:tabular-nums}
+.fignum small{font-size:14px;color:var(--muted);font-weight:600}
+.gait{font-size:12.5px;font-weight:700;padding:3px 9px;border-radius:99px;color:#fff;background:var(--trot)}
+.gait.walk{background:var(--walk)} .gait.canter{background:var(--canter)} .gait.none{background:var(--muted)}
+.status{font-size:13px;color:var(--muted);min-height:1.2em}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;transition:filter .2s}
+.steps li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.lt{font-family:var(--display);font-weight:800;font-size:14px;min-width:42px;text-align:center;padding:3px 6px;border-radius:7px;background:var(--accent-soft);color:var(--accent)}
+.hidden-text .steps{filter:blur(6px);user-select:none}
+.reveal{align-self:flex-start;font-size:13px}
+h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:2px 0 0}
+.ideas{margin:0;padding-left:18px;color:var(--ink)}
+.next{font-size:13.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:9px}
+.next b{color:var(--ink)}
+
+.chips{display:grid;grid-template-columns:repeat(var(--cols,11),1fr);gap:5px}
+.chip{position:relative;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 0;font-weight:700;font-variant-numeric:tabular-nums;cursor:pointer;overflow:hidden;font-size:13px}
+.chip.done{color:var(--muted)}
+.chip.cur{border-color:var(--accent);color:var(--accent)}
+.chip .bar{position:absolute;left:0;bottom:0;height:3px;background:var(--accent);width:0}
+
+.notes{font-size:13.5px;color:var(--muted)}
+.notes table{border-collapse:collapse;width:100%;max-width:520px;margin-top:6px}
+.notes td{padding:4px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.notes td:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);font-weight:700;padding-left:10px}
+.notes h2{margin-top:6px}
+#size40Lbl.off{opacity:.5;cursor:not-allowed}
+.legend svg{width:22px;height:6px;flex:none}
+
+/* Légende : couleurs des allures et symbole d'arrêt (anciennement en style inline) */
+.lg-walk{color:var(--walk)}
+.lg-trot{color:var(--trot)}
+.lg-canter{color:var(--canter)}
+.lg-extra{display:contents}
+.lg-halt{display:inline-block;width:0;height:10px;border-top:0;border-left:3px solid currentColor}
+.ideas .note-line{color:var(--muted);list-style:none}
