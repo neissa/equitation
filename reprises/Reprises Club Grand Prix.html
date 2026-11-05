@@ -1,0 +1,828 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Reprises Club Grand Prix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: carrière verticale (A en bas, C en haut) à gauche, fiche de la figure à droite ; frise des 22 figures dessous */
+:root{
+  --bg:#eef1ec; --panel:#ffffff; --ink:#1c2620; --muted:#5a685f; --line:#d3dacf;
+  --accent:#22345e; --accent-soft:#dde3f1;
+  --walk:#4f8a2e; --trot:#2a67ad; --canter:#cf6d12;
+  --display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111618; --panel:#192125; --ink:#e6ece7; --muted:#9aa8a0; --line:#2b363a;
+  --accent:#a9bcf0; --accent-soft:#25304a;
+  --walk:#86c25e; --trot:#6fa6ec; --canter:#f19a45; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111618; --panel:#192125; --ink:#e6ece7; --muted:#9aa8a0; --line:#2b363a;
+  --accent:#a9bcf0; --accent-soft:#25304a;
+  --walk:#86c25e; --trot:#6fa6ec; --canter:#f19a45; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45}
+.wrap{max-width:980px;margin:0 auto;padding-inline:16px;padding-block:18px 40px;display:flex;flex-direction:column;gap:16px}
+header .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.repsel{display:flex;flex-direction:column;gap:4px;margin:0 0 14px;max-width:420px}
+.repsel label{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+#repSelect{width:100%;font-family:var(--display);font-weight:800;font-size:18px;padding:10px 12px;border:2px solid var(--accent);border-radius:12px;background:var(--panel);color:var(--ink);min-height:48px;cursor:pointer}
+#repSelect:focus-visible{outline:3px solid var(--trot);outline-offset:2px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(24px,5vw,36px);line-height:1.05;margin:4px 0 6px;text-wrap:balance}
+header p{margin:0;color:var(--muted);max-width:62ch}
+
+.stage{display:grid;grid-template-columns:minmax(130px,38%) 1fr;gap:14px;align-items:start}
+@media (min-width:760px){.stage{grid-template-columns:330px 1fr;gap:24px}}
+.arena-col{display:flex;flex-direction:column;gap:8px;position:sticky;top:env(safe-area-inset-top,0px)}
+#arena{width:100%;height:auto;display:block;max-height:78vh}
+.legend{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{display:inline-block;width:16px;height:0;border-top:3px solid currentColor}
+
+.side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.controls{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+button,select{font:inherit;color:var(--ink)}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px 11px;cursor:pointer;font-weight:700;min-height:40px}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--panel);border-color:var(--accent);min-width:92px}
+.btn:focus-visible,.chip:focus-visible,select:focus-visible{outline:3px solid var(--trot);outline-offset:2px}
+select{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px;min-height:40px}
+.toggles{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.toggles label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.fighead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.fignum{font-family:var(--display);font-weight:800;font-size:40px;line-height:.9;color:var(--accent);font-variant-numeric:tabular-nums}
+.fignum small{font-size:14px;color:var(--muted);font-weight:600}
+.gait{font-size:12.5px;font-weight:700;padding:3px 9px;border-radius:99px;color:#fff;background:var(--trot)}
+.gait.walk{background:var(--walk)} .gait.canter{background:var(--canter)} .gait.none{background:var(--muted)}
+.status{font-size:13px;color:var(--muted);min-height:1.2em}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;transition:filter .2s}
+.steps li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.lt{font-family:var(--display);font-weight:800;font-size:14px;min-width:42px;text-align:center;padding:3px 6px;border-radius:7px;background:var(--accent-soft);color:var(--accent)}
+.hidden-text .steps{filter:blur(6px);user-select:none}
+.reveal{align-self:flex-start;font-size:13px}
+h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:2px 0 0}
+.ideas{margin:0;padding-left:18px;color:var(--ink)}
+.next{font-size:13.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:9px}
+.next b{color:var(--ink)}
+
+.chips{display:grid;grid-template-columns:repeat(var(--cols,11),1fr);gap:5px}
+.chip{position:relative;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 0;font-weight:700;font-variant-numeric:tabular-nums;cursor:pointer;overflow:hidden;font-size:13px}
+.chip.done{color:var(--muted)}
+.chip.cur{border-color:var(--accent);color:var(--accent)}
+.chip .bar{position:absolute;left:0;bottom:0;height:3px;background:var(--accent);width:0}
+
+.notes{font-size:13.5px;color:var(--muted)}
+.notes table{border-collapse:collapse;width:100%;max-width:520px;margin-top:6px}
+.notes td{padding:4px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.notes td:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);font-weight:700;padding-left:10px}
+.notes h2{margin-top:6px}
+#size40Lbl.off{opacity:.5;cursor:not-allowed}
+.legend svg{width:22px;height:6px;flex:none}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="repsel">
+      <label for="repSelect">Reprise</label>
+      <select id="repSelect"></select>
+    </div>
+    <div class="eyebrow">Dressage · <span id="repLbl">Club 3 Grand Prix</span> · rectangle <span id="sizeLbl">60 × 20</span></div>
+    <h1>Apprendre ma reprise, figure par figure</h1>
+    <p>Lance l'animation : le cheval parcourt chaque figure puis s'arrête. Relis, visualise, et passe à la suivante. Couleur du tracé = allure. <span id="repInfo"></span></p>
+    <p id="phNote" hidden><b>Lettres en pointillé (V, S, R, P, L, I) :</b> elles n'existent pas sur un 40 × 20. Elles sont placées à leur point repère, à mi-chemin entre la lettre de coin et E ou B (et entre X et G ou D pour I et L).</p>
+  </header>
+
+  <div class="stage">
+    <div class="arena-col">
+      <svg id="arena" viewBox="-3.2 -3.4 26.4 68.6" role="img" aria-label="Carrière avec le tracé de la reprise"></svg>
+      <div class="legend">
+        <span style="color:var(--walk)"><i></i>Pas</span>
+        <span style="color:var(--trot)"><i></i>Trot</span>
+        <span style="color:var(--canter)"><i></i>Galop</span>
+        <span id="lgExtra" style="display:contents"></span>
+        <span><i style="border-top:0;border-left:3px solid currentColor;height:10px;width:0"></i>Arrêt</span>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="controls">
+        <button class="btn" id="prev" aria-label="Figure précédente">◀ Préc.</button>
+        <button class="btn primary" id="play">▶ Lancer</button>
+        <button class="btn" id="next" aria-label="Figure suivante">Suiv. ▶</button>
+        <select id="speed" aria-label="Vitesse">
+          <option value="0.5">× 0,5 (lent)</option>
+          <option value="1" selected>× 1 (réel)</option>
+          <option value="1.5">× 1,5</option>
+          <option value="2">× 2</option>
+        </select>
+      </div>
+      <div class="toggles">
+        <label><input type="checkbox" id="stopEach" checked> Pause après chaque figure</label>
+        <label><input type="checkbox" id="hideText"> Mode mémoire (texte caché)</label>
+        <label><input type="checkbox" id="showAll" checked> Voir tout le tracé</label>
+        <label id="size40Lbl"><input type="checkbox" id="size40"> <b>Carrière 40 × 20</b> <span id="size40Note"></span></label>
+      </div>
+
+      <section class="card" id="card" aria-live="polite">
+        <div class="fighead">
+          <div class="fignum" id="fignum">1<small> / 22</small></div>
+          <span class="gait" id="gait">Trot de travail</span>
+        </div>
+        <div class="status" id="status">Prêt — appuie sur Lancer.</div>
+        <ul class="steps" id="steps"></ul>
+        <button class="btn reveal" id="reveal" hidden>Révéler le texte</button>
+        <h2>Ce que le juge regarde</h2>
+        <ul class="ideas" id="ideas"></ul>
+        <div class="next" id="nextFig"></div>
+      </section>
+    </div>
+  </div>
+
+  <nav class="chips" id="chips" aria-label="Figures de la reprise"></nav>
+
+  <section class="notes">
+    <h2>Notes d'ensemble (coef.)</h2>
+    <table id="ensTable"></table>
+    <p><span id="repScore"></span> <span id="repNotes"></span></p>
+  </section>
+</div>
+
+<script>
+(()=>{
+// ---------- Lettres (mètres : x 0→20, y 0 = A, 60 = C) ----------
+const LETS={
+ 60:{A:[10,0],K:[0,6],V:[0,18],E:[0,30],S:[0,42],H:[0,54],C:[10,60],M:[20,54],R:[20,42],B:[20,30],P:[20,18],F:[20,6],D:[10,6],L:[10,18],X:[10,30],I:[10,42],G:[10,54]},
+ 40:{A:[10,0],K:[0,6],V:[0,13],E:[0,20],S:[0,27],H:[0,34],C:[10,40],M:[20,34],R:[20,27],B:[20,20],P:[20,13],F:[20,6],D:[10,6],L:[10,13],X:[10,20],I:[10,27],G:[10,34]}};
+const PHS={60:new Set(),40:new Set(['V','S','R','P','L','I'])};
+let LEN,LET,PH,P,Q,T,TOTAL,figStart,figEnd,boards,lines,horse,hb,sy;
+
+const GA={
+  pas:{v:1.6,label:'Pas moyen',fam:'walk',dash:''},
+  pasA:{v:1.9,label:'Pas allongé',fam:'walk',dash:'1 .6'},
+  trot:{v:3.4,label:'Trot de travail',fam:'trot',dash:''},
+  trotD:{v:4.2,label:'Trot développé',fam:'trot',dash:'1 .6'},
+  cession:{v:2.6,label:'Cession à la jambe',fam:'trot',dash:'.15 .5'},
+  galop:{v:5.2,label:'Galop de travail',fam:'canter',dash:''},
+  trotM:{v:4.0,label:'Trot moyen',fam:'trot',dash:'1 .6'},
+  galopM:{v:6.2,label:'Galop moyen',fam:'canter',dash:'1 .6'},
+  contre:{v:5.0,label:'Contre-galop',fam:'canter',dash:'1.2 .4 .2 .4'},
+  galopRC:{v:5.2,label:'Galop, mains avancées (contact rendu)',fam:'canter',dash:'.3 .3'},
+  trotRL:{v:3.4,label:'Trot, rênes qui filent',fam:'trot',dash:'.3 .3'},
+  epaule:{v:2.8,label:'Épaule en dedans',fam:'trot',dash:'.15 .5'},
+  note:{v:1,label:'Note du cavalier',fam:'none',dash:''},
+  recul:{v:.7,label:'Reculer (3 à 5 pas)',fam:'walk',dash:''},
+  arret:{v:1,label:'Arrêt · immobilité · salut',fam:'none',dash:''}
+};
+
+// ---------- Texte des figures ----------
+const REPS={
+ club4:{name:'Club 4 – Poney 3',short:['Club 4','Poney 3'],group:'dre',sizes:[60,40],
+  info:"Reprise de dressage Club 4 – Poney 3 (version 01/09/2025).",notes:"La grille ne précise pas la taille du rectangle : vérifie sur l'avant-programme. Points de pénalité : 10 maximum.",score:"22 figures notées sur 10 (total /220) + notes d'ensemble = /300. Erreur de parcours : −1 % la 1<sup>re</sup> et la 2<sup>e</sup> fois, élimination à la 3<sup>e</sup>. Défaut de harnachement ou d'embouchure : −5 %.",
+  ens:[['Allures (conformité des 3 allures, foulées stables et régulières)',1],['Impulsion (se porte en avant, transitions faciles, équilibre contrôlé)',1],['Disponibilité (sur la main, contact constant, acceptation des aides)',2],['Position et emploi des aides',2],['Tracé, passage des coins, transitions aux repères',2]],legend:[['1 .6','Pas allongé']],
+  figs:[
+ {steps:[['avant R','Sur la piste à main gauche : arrêt. Immobilité. Salut'],['→','Rompre au pas moyen']],ideas:['Le cheval est droit et reste immobile pendant le salut','Les 4 pieds sont au sol'],letters:['R']},
+ {steps:[['R–M','Entre R et M : départ progressif au trot de travail']],ideas:['Le cheval part au trot franchement, sur une demande discrète'],letters:['R','M']},
+ {steps:[['MCH','Trot de travail (passage des coins)']],ideas:['Mouvement en avant, foulées stables et régulières','Encolure en pli interne dans les coins en M et H, tracé des coins contrôlé'],letters:['M','C','H']},
+ {steps:[['HS','Trot de travail'],['SRS','Cercle de 20 m']],ideas:['Mouvement en avant, foulées stables et régulières','Encolure en léger pli interne'],letters:['H','S','R']},
+ {steps:[['SE','Trot de travail'],['EF','Changement de main au trot de travail']],ideas:['Mouvement en avant, foulées stables et constantes','Rectitude'],letters:['S','E','F']},
+ {steps:[['FAK','Trot de travail (passage des coins)']],ideas:['Mouvement en avant, foulées stables et régulières','Encolure en pli interne dans les coins en F et K, tracé des coins contrôlé'],letters:['F','A','K']},
+ {steps:[['KV','Trot de travail'],['VPV','Cercle de 20 m']],ideas:['Mouvement en avant, foulées stables et régulières','Encolure en léger pli interne'],letters:['K','V','P']},
+ {steps:[['VE','Trot de travail'],['EM','Changement de main au trot de travail']],ideas:['Mouvement en avant, foulées stables et constantes','Rectitude'],letters:['V','E','M']},
+ {steps:[['—','Fonctionnement, liant, emploi des aides au trot (note du cavalier sur toute la partie au trot)']],ideas:['Buste vertical, coudes semi-fléchis, mains ensemble et devant','Assiette et liant, jambes descendues','Aides stables et discrètes, mains vers la bouche du cheval et non vers l\'arrière'],letters:[]},
+ {steps:[['MC','Trot de travail'],['CH','Pas moyen']],ideas:['La transition est facile et fluide','Le rythme des allures est respecté, pli interne dans le coin de M'],letters:['M','C','H']},
+ {steps:[['HSP','Changement de main au pas allongé'],['P','Pas moyen']],ideas:['Le rythme du pas est respecté','Attitude dépliée vers le contact, différence d\'attitude bien visible'],letters:['H','S','P']},
+ {steps:[['P–F','Entre P et F : départ au trot de travail']],ideas:['Le cheval part au trot franchement, sur une demande discrète'],letters:['P','F']},
+ {steps:[['F–K','Entre F et K : départ au galop de travail à droite']],ideas:['Départ franc sur une demande discrète','Le cavalier garde le contrôle du galop ensuite'],letters:['F','A','K']},
+ {steps:[['KV','Galop de travail'],['VPV','Cercle de 20 m']],ideas:['Léger pli interne','Mouvement en avant et contrôle du galop, foulées constantes'],letters:['K','V','P']},
+ {steps:[['VM','Changement de main'],['avant M','Un peu avant M : trot de travail']],ideas:['Transition facile et fluide','Foulées stables et régulières après la transition'],letters:['V','M']},
+ {steps:[['M–H','Entre M et H : départ au galop à gauche']],ideas:['Départ franc sur une demande discrète','Le cavalier garde le contrôle du galop ensuite'],letters:['M','C','H']},
+ {steps:[['HS','Galop de travail'],['SRS','Cercle de 20 m']],ideas:['Léger pli interne','Mouvement en avant et contrôle du galop, foulées constantes'],letters:['H','S','R']},
+ {steps:[['SF','Changement de main'],['avant F','Un peu avant F : trot de travail']],ideas:['Transition facile et fluide','Foulées stables et régulières après la transition'],letters:['S','F']},
+ {steps:[['—','Fonctionnement, liant, emploi des aides au galop (note du cavalier sur toute la partie au galop)']],ideas:['Buste vertical, coudes semi-fléchis, mains ensemble et devant','Assiette et liant, jambes descendues','Aides stables et discrètes, mains vers la bouche du cheval et non vers l\'arrière'],letters:[]},
+ {steps:[['FAK','Trot de travail (passage des coins)']],ideas:['Mouvement en avant, foulées stables et régulières','Encolure en pli interne dans les coins en F et K, tracé des coins contrôlé'],letters:['F','A','K']},
+ {steps:[['KS','Trot de travail']],ideas:['Mouvement en avant, foulées stables et constantes','Rectitude'],letters:['K','S']},
+ {steps:[['S','Sur la piste à main droite : transition au pas moyen puis arrêt. Immobilité. Salut'],['—','Quitter la piste au pas libre, rênes longues']],ideas:['Transition facile et fluide','Le cheval est droit sur la piste et immobile pendant le salut, 4 pieds au sol'],letters:['S']}
+],
+  path:k=>{const {fig,gait,to,halt,note,circle,arc,PI,e,sv,v,h,yi,l,top}=k;
+const t1=sv-9;
+fig(1);gait('pas');to(19,t1-4);to(19,sv-3);halt(4);to(19,sv+2);
+fig(2);to(19,sv+5);gait('trot');to(19,h);
+fig(3);to(19,top);to(1,top);to(1,h);
+fig(4);to(1,sv);circle(10,sv,9,PI,1);
+fig(5);to(1,e);to(19,6);
+fig(6);to(19,1);to(1,1);to(1,6);
+fig(7);to(1,v);circle(10,v,9,PI,-1);
+fig(8);to(1,e);to(19,h);
+fig(9);note(3);
+fig(10);to(19,top);to(10,top);gait('pas');to(1,top);to(1,h);
+fig(11);gait('pasA');to(1,sv);to(19,v);gait('pas');to(19,v-1);
+fig(12);to(19,v-5);gait('trot');to(19,6);
+fig(13);to(19,1);to(12,1);gait('galop');to(1,1);to(1,6);
+fig(14);to(1,v);circle(10,v,9,PI,-1);
+fig(15);to(1+18*.8,v+(h-v)*.8);gait('trot');to(19,h);
+fig(16);to(19,top);to(14,top);gait('galop');to(1,top);to(1,h);
+fig(17);to(1,sv);circle(10,sv,9,PI,1);
+fig(18);to(1+18*.8,sv+(6-sv)*.8);gait('trot');to(19,6);
+fig(19);note(3);
+fig(20);to(19,1);to(1,1);to(1,6);
+fig(21);to(1,sv-5);
+fig(22);gait('pas');to(1,sv);halt(5);
+  }},
+ cceElite:{name:'Club Elite CCE (dressage du complet)',short:['Club Elite','CCE'],group:'cce',sizes:[60,40],
+  info:"Dressage du concours complet, Club Elite (version 28/11/2025).",notes:"La grille ne précise pas la taille du rectangle : vérifie sur l'avant-programme.",score:"17 figures notées sur 10 (total /170) + notes d'ensemble /50 = /220. Erreur de parcours : −2 points la 1<sup>re</sup> fois, −4 la 2<sup>e</sup>, élimination à la 3<sup>e</sup>. En complet, le pourcentage est converti en points de pénalité : (100 − %) × 1,5.",
+  ens:[['Allures (franchise et régularité)',1],['Impulsion (désir de se porter en avant, élasticité, engagement)',1],['Acceptation et confiance (perméabilité aux aides, attitude, contact)',1],['Cavalier : position, fonctionnement, emploi des aides',1],['Correction du tracé, passage des coins',1]],legend:[['1 .6','Trot / galop moyen, pas allongé'],['.15 .5','Cession'],['1.2 .4 .2 .4','Contre-galop']],
+  figs:[
+ {steps:[['A','Entrée au trot de travail'],['C','Piste à main gauche au trot de travail']],ideas:['L\'entrée, la régularité, le rythme et la rectitude','Incurvation et équilibre dans le tournant'],letters:['A','C']},
+ {steps:[['CH','Trot de travail'],['HF','Changement de main au trot moyen'],['FAK','Trot de travail']],ideas:['Équilibre, transition, rythme de l\'allongement, contact, attitude'],letters:['C','H','F','A','K']},
+ {steps:[['KX','Cession à la jambe'],['XI','Trot de travail']],ideas:['Le contrôle des épaules et l\'engagement des postérieurs','Régularité, rythme et rectitude'],letters:['K','X','I']},
+ {steps:[['IR','Demi-cercle de 10 m au trot de travail']],ideas:['Tracé, régularité, incurvation, équilibre'],letters:['I','R']},
+ {steps:[['RK','Changement de main au trot moyen'],['KAF','Trot de travail']],ideas:['Équilibre, transition, rythme de l\'allongement, contact, attitude'],letters:['R','K','A','F']},
+ {steps:[['FX','Cession à la jambe'],['XI','Trot de travail']],ideas:['Le contrôle des épaules et l\'engagement des postérieurs','Régularité, rythme et rectitude'],letters:['F','X','I']},
+ {steps:[['IS','Demi-cercle de 10 m']],ideas:['Tracé, régularité, incurvation, équilibre'],letters:['I','S']},
+ {steps:[['S–E','Entre S et E : transition au pas moyen'],['EF','Changement de main au pas allongé']],ideas:['Transition, régularité des pas, rythme, contact, attitude','Rythme, contact, changement d\'attitude'],letters:['S','E','F']},
+ {steps:[['FA','Pas moyen'],['A','Arrêt, immobilité']],ideas:['L\'arrêt, la transition, l\'immobilité (3-4 s)'],letters:['F','A']},
+ {steps:[['A','Reculer de 4 à 5 pas, rompre au trot'],['AK','Trot de travail']],ideas:['La qualité du reculer, l\'attitude, les transitions'],letters:['A','K']},
+ {steps:[['K','Départ au galop de travail à droite'],['KV','Galop de travail']],ideas:['La précision, la qualité du départ au galop'],letters:['K','V']},
+ {steps:[['VS','Galop moyen'],['SH','Galop de travail']],ideas:['La régularité, le rythme et les transitions','La précision'],letters:['V','S','H']},
+ {steps:[['H','Demi-cercle de 10 m, rejoindre la piste en E'],['EK','Galop de travail à droite (contre-galop)']],ideas:['Le tracé, la régularité, l\'incurvation, l\'équilibre'],letters:['H','E','K']},
+ {steps:[['K','Transition au trot de travail'],['KAF','Trot de travail'],['F','Départ au galop de travail à gauche']],ideas:['La précision, le respect de la mise sur la main','La précision et la qualité du départ au galop'],letters:['K','A','F']},
+ {steps:[['FP','Galop de travail'],['PR','Galop moyen'],['RM','Galop de travail']],ideas:['La régularité, le rythme et les transitions','La précision'],letters:['F','P','R','M']},
+ {steps:[['M','Demi-cercle de 10 m, rejoindre la piste en B'],['BF','Galop de travail à gauche (contre-galop)'],['F','Transition au trot']],ideas:['Le tracé, la régularité, l\'incurvation, l\'équilibre','La précision, l\'équilibre et l\'activité du trot'],letters:['M','B','F']},
+ {steps:[['FA','Trot de travail'],['AL','Doubler'],['L','Arrêt. Immobilité. Salut'],['—','Quitter la piste en A, au pas rênes longues']],ideas:['L\'incurvation, l\'équilibre et la précision','La transition, l\'arrêt et l\'immobilité pendant le salut'],letters:['F','A','L']}
+],
+  path:k=>{const {fig,gait,to,halt,note,circle,arc,PI,e,sv,v,h,yi,l,top}=k;
+fig(1);gait('trot');to(10,-3);to(10,top);to(1,top);
+fig(2);to(1,h);gait('trotM');to(19,6);gait('trot');to(19,1);to(1,1);to(1,6);
+fig(3);gait('cession');to(10,e);gait('trot');to(10,yi);
+fig(4);arc(14.5,yi,4.5,PI,0);
+fig(5);gait('trotM');to(1,6);gait('trot');to(1,1);to(19,1);to(19,6);
+fig(6);gait('cession');to(10,e);gait('trot');to(10,yi);
+fig(7);arc(5.5,yi,4.5,0,PI);
+fig(8);to(1,sv-4);gait('pas');to(1,e);gait('pasA');to(19,6);
+fig(9);gait('pas');to(19,1);to(10,1);halt(4);
+fig(10);gait('recul');to(12.5,1);gait('trot');to(1,1);to(1,6);
+fig(11);gait('galop');to(1,v);
+fig(12);gait('galopM');to(1,sv);gait('galop');to(1,h);
+fig(13);arc(5.5,h,4.5,PI,0);to(1,e);gait('contre');to(1,6);
+fig(14);gait('trot');to(1,1);to(19,1);to(19,6);
+fig(15);gait('galop');to(19,v);gait('galopM');to(19,sv);gait('galop');to(19,h);
+fig(16);arc(14.5,h,4.5,0,PI);to(19,e);gait('contre');to(19,6);
+fig(17);gait('trot');to(19,1);to(10,1);to(10,l);halt(5);
+  }},
+ cce1:{name:'Club 1 CCE – Poney 1 CCE (dressage du complet)',short:['Club 1','CCE'],group:'cce',sizes:[60,40],
+  info:"Dressage du concours complet, Club 1 – Poney 1 (version 03/12/2025).",notes:"La grille ne précise pas la taille du rectangle : vérifie sur l'avant-programme.",score:"17 figures notées sur 10 (total /170) + notes d'ensemble /50 = /220. Erreur de parcours : −2 points la 1<sup>re</sup> fois, −4 la 2<sup>e</sup>, élimination à la 3<sup>e</sup>. En complet, le pourcentage est converti en points de pénalité : (100 − %) × 1,5.",
+  ens:[['Allures (franchise et régularité)',1],['Impulsion (désir de se porter en avant, élasticité, engagement)',1],['Acceptation et confiance (perméabilité aux aides, attitude, contact)',1],['Cavalier : position, fonctionnement, emploi des aides',1],['Correction du tracé, passage des coins',1]],legend:[['1 .6','Trot développé / galop moyen / pas allongé'],['1.2 .4 .2 .4','Contre-galop']],
+  figs:[
+ {steps:[['A','Entrée au trot de travail'],['AC','Trot de travail'],['C','Piste à main gauche']],ideas:['L\'entrée, la rectitude, l\'incurvation et l\'activité'],letters:['A','C']},
+ {steps:[['HS','Trot de travail'],['S','Cercle de 15 m']],ideas:['Le tracé, la précision, l\'incurvation, l\'équilibre'],letters:['H','S']},
+ {steps:[['EB','Changement de main'],['vers X','Transition au pas sur 3 à 5 pas, puis trot']],ideas:['Le respect de la mise sur la main, la rectitude','La qualité du pas'],letters:['E','X','B']},
+ {steps:[['BP','Trot de travail'],['P','Cercle de 15 m']],ideas:['Le tracé, la précision, l\'incurvation, l\'équilibre'],letters:['B','P']},
+ {steps:[['PFK','Trot de travail'],['KM','Changement de main en développant quelques foulées'],['avant M','Trot de travail']],ideas:['Régularité, rythme et rectitude','Transition, contact, attitude'],letters:['P','F','K','M']},
+ {steps:[['MC','Trot de travail'],['C','Départ au galop de travail à gauche']],ideas:['Régularité, rythme et rectitude','La précision, l\'équilibre et la qualité du départ au galop'],letters:['M','C']},
+ {steps:[['CHS','Galop de travail'],['SV','Galop moyen']],ideas:['L\'équilibre et la qualité du galop'],letters:['C','H','S','V']},
+ {steps:[['VK','Galop de travail'],['K','Demi-cercle de 10 m, rejoindre la piste en S']],ideas:['Régularité, rythme et rectitude','Le tracé, l\'incurvation, l\'équilibre'],letters:['V','K','S']},
+ {steps:[['SH','Galop de travail à gauche (contre-galop)'],['H','Transition au trot']],ideas:['L\'équilibre et la précision, la qualité du contre-galop','La précision, l\'équilibre et la qualité du trot'],letters:['S','H']},
+ {steps:[['HC','Trot de travail'],['C','Départ au galop à droite']],ideas:['La précision, l\'équilibre et la qualité du départ au galop'],letters:['H','C']},
+ {steps:[['CMR','Galop de travail'],['RP','Galop moyen']],ideas:['Régularité, rythme et rectitude'],letters:['C','M','R','P']},
+ {steps:[['PF','Galop de travail'],['F','Demi-cercle de 10 m et rejoindre la piste en R']],ideas:['Le tracé, l\'incurvation, l\'équilibre'],letters:['P','F','R']},
+ {steps:[['RM','Galop de travail à droite (contre-galop)']],ideas:['La précision, l\'équilibre et la qualité du galop'],letters:['R','M']},
+ {steps:[['MC','Trot de travail'],['C','Arrêt, rompre au pas moyen']],ideas:['La transition au trot, la régularité, la mise sur la main, le passage des coins','L\'arrêt, l\'immobilité (2-3 s), la précision, le départ au pas'],letters:['M','C']},
+ {steps:[['CH','Pas moyen'],['HB','Changement de main au pas allongé'],['BP','Pas moyen']],ideas:['L\'amplitude des pas, la régularité et l\'attitude au pas allongé','Le changement d\'attitude entre pas moyen et pas allongé'],letters:['C','H','B','P']},
+ {steps:[['PFA','Trot de travail'],['AL','Doubler']],ideas:['L\'incurvation, l\'équilibre et la précision','Rectitude sur la ligne du milieu'],letters:['P','F','A','L']},
+ {steps:[['L','Arrêt. Immobilité. Salut'],['—','Quitter la piste en A, au pas rênes longues']],ideas:['L\'arrêt, l\'immobilité pendant le salut, la précision'],letters:['L']}
+],
+  path:k=>{const {fig,gait,to,halt,note,circle,arc,PI,e,sv,v,h,yi,l,top}=k;
+fig(1);gait('trot');to(10,-3);to(10,top);to(1,top);
+fig(2);to(1,h);to(1,sv);circle(8.5,sv,7.5,PI,1);
+fig(3);to(1,e);to(7,e);gait('pas');to(12.5,e);gait('trot');to(19,e);
+fig(4);to(19,v);circle(11.5,v,7.5,0,-1);
+fig(5);to(19,1);to(1,1);to(1,6);gait('trotD');to(1+18*.85,6+(h-6)*.85);gait('trot');to(19,h);
+fig(6);to(19,top);to(10,top);
+fig(7);gait('galop');to(1,top);to(1,h);to(1,sv);gait('galopM');to(1,v);
+fig(8);gait('galop');to(1,6);arc(5.5,6,4.5,PI,2*PI);to(1,sv);
+fig(9);gait('contre');to(1,h);
+fig(10);gait('trot');to(1,top);to(10,top);
+fig(11);gait('galop');to(19,top);to(19,h);to(19,sv);gait('galopM');to(19,v);
+fig(12);gait('galop');to(19,6);arc(14.5,6,4.5,0,-PI);to(19,sv);
+fig(13);gait('contre');to(19,h);
+fig(14);gait('trot');to(19,top);to(10,top);halt(3);gait('pas');to(8,top);
+fig(15);to(1,top);to(1,h);gait('pasA');to(19,e);gait('pas');to(19,v);
+fig(16);gait('trot');to(19,1);to(10,1);to(10,l-3);
+fig(17);to(10,l);halt(5);
+  }},
+ cce3:{name:'Club 3 CCE – Poney 3 CCE (dressage du complet)',short:['Club 3 / 2','CCE'],group:'cce',sizes:[60,40],
+  info:"Dressage du concours complet, Club 3 – Poney 3 (version 03/12/2025). Trot assis à l'entrée.",notes:"Rectangle 60 × 20 ou 40 × 20. La version 2022 de cette même reprise s'appliquait aussi en Club 2 – Poney 2, avec +2 points de bonus en filet simple.",score:"13 figures notées sur 10 (total /130) + notes d'ensemble /50 = /180. Erreur de parcours : −2 points la 1<sup>re</sup> fois, −4 la 2<sup>e</sup>, élimination à la 3<sup>e</sup>. En complet, le pourcentage est converti en points de pénalité : (100 − %) × 1,5.",
+  ens:[['Allures (franchise et régularité)',1],['Impulsion (désir de se porter en avant, élasticité, engagement)',1],['Acceptation et confiance (perméabilité aux aides, attitude, contact)',1],['Cavalier : position, fonctionnement, emploi des aides',1],['Correction du tracé, passage des coins',1]],legend:[],
+  figs:[
+ {steps:[['A','Entrée au trot assis'],['C','Piste à main droite'],['CM','Trot de travail']],ideas:['Rectitude','Regard'],letters:['A','C','M']},
+ {steps:[['ME','Changement de main au trot de travail'],['EV','Trot de travail']],ideas:['La correction de l\'attitude, la stabilité du trot'],letters:['M','E','V']},
+ {steps:[['V','Cercle de 20 m'],['VK','Trot de travail']],ideas:['Le tracé, la précision, la stabilité et la conservation de l\'activité'],letters:['V','K']},
+ {steps:[['K','Transition au pas'],['KAF','Pas moyen']],ideas:['La précision, régularité des pas, rythme','Le tracé et la rectitude'],letters:['K','A','F']},
+ {steps:[['F–P','Entre F et P : départ au trot de travail'],['PB','Trot de travail']],ideas:['Le tracé et la précision'],letters:['F','P','B']},
+ {steps:[['BE','Doubler'],['ES','Trot de travail'],['S','Cercle de 20 m']],ideas:['La correction de l\'attitude, la stabilité du trot','Le tracé, la précision, la stabilité et la conservation de l\'activité'],letters:['B','E','S']},
+ {steps:[['SHC','Trot de travail'],['C–M','Entre C et M : départ au galop de travail à droite']],ideas:['Le passage des coins','Transition, équilibre et qualité du départ au galop'],letters:['S','H','C','M']},
+ {steps:[['MR','Galop de travail'],['R','Cercle de 20 m']],ideas:['Régularité, rythme et rectitude','Le tracé, la précision, la stabilité et la conservation de l\'activité'],letters:['M','R']},
+ {steps:[['RK','Changement de main au galop de travail, transition au trot sur la ligne du milieu']],ideas:['Le tracé, la précision, la transition, le contact, l\'attitude'],letters:['R','X','K']},
+ {steps:[['KA','Trot de travail'],['A–F','Entre A et F : départ au galop de travail à gauche']],ideas:['Régularité, rythme et rectitude','Transition, équilibre et qualité du départ au galop'],letters:['K','A','F']},
+ {steps:[['FP','Galop de travail'],['P','Cercle de 20 m']],ideas:['Régularité, rythme et rectitude','Le tracé, la précision, la stabilité et la conservation de l\'activité'],letters:['F','P']},
+ {steps:[['PH','Changement de main, repasser au trot vers la ligne du milieu']],ideas:['Le tracé, la précision, la transition, l\'équilibre et l\'activité du trot'],letters:['P','X','H']},
+ {steps:[['HC','Trot de travail'],['C','Arrêt progressif. Immobilité. Salut'],['—','Quitter la piste en A, au pas rênes longues']],ideas:['La direction, la précision, la transition','L\'arrêt et l\'immobilité pendant le salut'],letters:['H','C']}
+],
+  path:k=>{const {fig,gait,to,halt,note,circle,arc,PI,e,sv,v,h,yi,l,top}=k;
+fig(1);gait('trot');to(10,-3);to(10,top);to(19,top);to(19,h);
+fig(2);to(1,e);to(1,v);
+fig(3);circle(10,v,9,PI,1);to(1,6);
+fig(4);gait('pas');to(1,1);to(19,1);to(19,6);
+fig(5);to(19,10);gait('trot');to(19,e);
+fig(6);to(1,e);to(1,sv);circle(10,sv,9,PI,-1);
+fig(7);to(1,h);to(1,top);to(13,top);gait('galop');to(19,top);
+fig(8);to(19,h);to(19,sv);circle(10,sv,9,0,-1);
+fig(9);to(10,sv+(6-sv)/2);gait('trot');to(1,6);
+fig(10);to(1,1);to(14,1);gait('galop');to(19,1);to(19,6);
+fig(11);to(19,v);circle(10,v,9,0,1);
+fig(12);to(10,(v+h)/2);gait('trot');to(1,h);
+fig(13);to(1,top);to(10,top);halt(5);
+  }},
+ elite:{group:'dre',score:"22 figures notées sur 10 (total /220) + notes d'ensemble = /300. Erreur de parcours : −1 % la 1<sup>re</sup> et la 2<sup>e</sup> fois, élimination à la 3<sup>e</sup>. Défaut de harnachement ou d'embouchure : −5 %.",name:'Club Elite Grand Prix',short:['Club Elite','Grand Prix'],sizes:[60],
+  info:"Filet simple ou bride (filet obligatoire pour les chevaux de moins de 6 ans), éperons autorisés, stick en préparatoire uniquement.",
+  notes:"Rectangle 60 × 20 uniquement. Points de pénalité : 10 maximum.",
+  ens:[['Allures (conformité des 3 allures, foulées stables et régulières)',1],['Impulsion (se porte en avant, transitions faciles, équilibre contrôlé)',1],['Disponibilité (sur la main, contact constant, acceptation des aides)',2],['Position et emploi des aides',2],['Tracé, passage des coins, transitions aux repères',2]],
+  legend:[['1 .6','Trot / galop moyen, pas allongé'],['.15 .5','Épaule en dedans'],['.3 .3','Rênes qui filent / contact rendu']],
+  figs:[
+ {steps:[['A','Entrée au trot de travail'],['X','Arrêt. Immobilité. Salut'],['XC','Rompre au trot de travail']],ideas:['Rectitude, fluidité de la transition descendante, mise en main','Les 4 pieds sont au sol pendant l\'arrêt, immobilité pendant le salut','Franchise du départ sur une demande discrète'],letters:['A','X','C']},
+ {steps:[['C','Piste à main gauche'],['CHS','Trot de travail'],['SF','Changement de main au trot moyen'],['FAK','Trot de travail']],ideas:['Activité, augmentation de l\'amplitude et maintien des foulées moyennes','La cadence reste contrôlée, les transitions sont fluides','Attitude stable, en main, contact constant sur les 2 rênes','Le passage des coins en H, F et K'],letters:['C','H','S','F','A','K']},
+ {steps:[['KV','Trot de travail'],['VS','Épaule en dedans à droite']],ideas:['Maintien du rythme et de la qualité de l\'allure avant et pendant le mouvement','Mise en main stable sur un contact constant','Orientation stable : postérieurs sur la piste, épaules en piste intérieure'],letters:['K','V','S']},
+ {steps:[['SI','Demi-cercle de 10 m à droite'],['IL','Trot de travail'],['LP','Demi-cercle de 10 m à gauche']],ideas:['Maintien du rythme et de la qualité de l\'allure','Incurvation et équilibre dans le changement','La taille et le tracé des demi-cercles, la rectitude sur la ligne du milieu'],letters:['S','I','L','P']},
+ {steps:[['PR','Épaule en dedans à gauche'],['R','Redresser'],['RM','Trot de travail']],ideas:['Maintien du rythme et de la qualité de l\'allure avant et pendant le mouvement','Mise en main stable sur un contact constant','Orientation stable : postérieurs sur la piste, épaules en piste intérieure'],letters:['P','R','M']},
+ {steps:[['MCHS','Trot de travail'],['SR','Demi-cercle de 20 m, laisser filer les rênes sur 10 à 15 m'],['RM','Trot de travail']],ideas:['Maintien du rythme et de la qualité de l\'allure','Le cheval étend l\'encolure vers le bas et l\'avant en gardant le contact, nez légèrement en avant de la verticale','Reprise des rênes progressive et sans heurts','Le passage des coins en M et H'],letters:['M','C','H','S','R']},
+ {steps:[['MC','Pas moyen'],['C','Arrêt. Immobilité. Reculer de 3 à 5 pas. Rompre immédiatement au pas moyen']],ideas:['Le rythme et la qualité du pas moyen','La diagonalisation du reculer, la rectitude et le contrôle des pas','La fluidité des transitions, arrêt établi sur les 4 pieds et marqué'],letters:['M','C']},
+ {steps:[['CHS','Pas moyen']],ideas:['Le rythme et la qualité de l\'allure, la souplesse / décontraction','Mise en main stable sur un contact constant'],letters:['C','H','S']},
+ {steps:[['SPF','Changement de main au pas allongé']],ideas:['Le maintien du rythme et la qualité du pas','Attitude dépliée avec un contact constant, nez légèrement en avant de la verticale','La modification d\'amplitude'],letters:['S','P','F']},
+ {steps:[['FA','Pas moyen'],['A','Départ au galop de travail à droite'],['AK','Galop de travail']],ideas:['Maintien du rythme du pas dans la transition au pas moyen','Franchise du départ, sur une demande discrète','Le cheval est en ligne, les coins de F et K sont contrôlés'],letters:['F','A','K']},
+ {steps:[['KS','Galop moyen']],ideas:['Le rythme, les foulées moyennes sont maintenues','Équilibre et cadence contrôlés, la transition est fluide','Le cheval est redressé dans le galop'],letters:['K','S']},
+ {steps:[['S','Transition au galop de travail']],ideas:['Maintien du rythme du galop, la transition est fluide','Mise en main stable, le cheval est redressé'],letters:['S']},
+ {steps:[['SR','Demi-cercle de 20 m : vers la ligne du milieu, avancer les mains vers la bouche du cheval et rompre le contact 2 à 3 foulées']],ideas:['Le rythme et la qualité du galop, l\'équilibre','Le contact doit être rompu clairement','Attitude et mise en main gardées, sans heurts à l\'avancée des mains et à la reprise de contact'],letters:['S','R']},
+ {steps:[['RP','Galop de travail (galoper droit)']],ideas:['Le rythme et la qualité du galop, l\'équilibre','Le redressement du galop et l\'orientation stable du corps du cheval'],letters:['R','P']},
+ {steps:[['PL','Demi-cercle de 10 m'],['vers L','Transition au pas moyen'],['LX','Pas moyen']],ideas:['Le rythme du galop et du pas, l\'équilibre et la souplesse','Attitude stable, fluidité de la transition','La qualité du tracé, l\'incurvation et la rectitude'],letters:['P','L','X']},
+ {steps:[['vers X','Galop de travail à gauche'],['XC','Galop de travail'],['C','Piste à main gauche']],ideas:['Franchise du départ au galop sur des aides discrètes','Mise en main et contact constant sur les 2 rênes','La rectitude du tracé et le redressement du galop'],letters:['X','C']},
+ {steps:[['CHS','Galop de travail'],['SV','Galop de travail (galoper droit)']],ideas:['Le rythme et la qualité du galop, l\'équilibre','Le redressement du galop et l\'orientation stable du corps du cheval'],letters:['C','H','S','V']},
+ {steps:[['VL','Demi-cercle de 10 m'],['vers L','Transition au pas moyen'],['LX','Pas moyen']],ideas:['Le rythme du galop et du pas, l\'équilibre et la souplesse','Attitude stable, fluidité de la transition','La qualité du tracé, l\'incurvation et la rectitude'],letters:['V','L','X']},
+ {steps:[['vers X','Galop de travail à droite'],['XC','Galop de travail'],['C','Piste à main droite']],ideas:['Franchise du départ au galop sur des aides discrètes','Mise en main et contact constant sur les 2 rênes','La rectitude du tracé et le redressement du galop'],letters:['X','C']},
+ {steps:[['M','Trot de travail'],['MR','Trot de travail']],ideas:['Le rythme de l\'allure et la fluidité de la transition','Attitude stable sur la main, contact constant'],letters:['M','R']},
+ {steps:[['RK','Changement de main au trot moyen'],['KA','Trot de travail']],ideas:['Activité, augmentation de l\'amplitude et maintien des foulées moyennes','La cadence reste contrôlée, les transitions sont fluides','Le passage du coin en K'],letters:['R','K','A']},
+ {steps:[['A','Doubler'],['AI','Trot de travail'],['I','Arrêt. Immobilité. Salut'],['—','Quitter la piste au pas libre, rênes longues']],ideas:['Rectitude, fluidité de la transition descendante, mise en main','Les 4 pieds sont au sol pendant l\'arrêt, immobilité pendant le salut'],letters:['A','I']}
+],
+  path:k=>{const {fig,gait,to,halt,circle,arc,PI}=k;
+fig(1);gait('trot');to(10,-3);to(10,30);halt(4);to(10,59);
+fig(2);to(1,59);to(1,42);gait('trotM');to(19,6);gait('trot');to(19,1);to(1,1);to(1,6);
+fig(3);to(1,18);gait('epaule');to(1,42);
+fig(4);gait('trot');arc(5.5,42,4.5,PI,0);to(10,18);arc(14.5,18,4.5,PI,2*PI);
+fig(5);gait('epaule');to(19,42);gait('trot');to(19,54);
+fig(6);to(19,59);to(1,59);to(1,42);arc(10,42,9,PI,1.22*PI);gait('trotRL');arc(10,42,9,1.22*PI,1.78*PI);gait('trot');arc(10,42,9,1.78*PI,2*PI);to(19,54);
+fig(7);gait('pas');to(19,59);to(10,59);halt(3);gait('recul');to(12.2,59);gait('pas');to(8,59);
+fig(8);to(1,59);to(1,42);
+fig(9);gait('pasA');to(19,18);to(19,6);
+fig(10);gait('pas');to(19,1);to(10,1);gait('galop');to(1,1);to(1,6);
+fig(11);gait('galopM');to(1,39);
+fig(12);gait('galop');to(1,42);
+fig(13);arc(10,42,9,PI,.62*PI);gait('galopRC');arc(10,42,9,.62*PI,.38*PI);gait('galop');arc(10,42,9,.38*PI,0);
+fig(14);to(19,18);
+fig(15);arc(14.5,18,4.5,0,-.8*PI);gait('pas');arc(14.5,18,4.5,-.8*PI,-PI);to(10,27);
+fig(16);gait('galop');to(10,59);to(1,59);
+fig(17);to(1,42);to(1,18);
+fig(18);arc(5.5,18,4.5,PI,1.8*PI);gait('pas');arc(5.5,18,4.5,1.8*PI,2*PI);to(10,27);
+fig(19);gait('galop');to(10,59);to(19,59);to(19,54);
+fig(20);gait('trot');to(19,42);
+fig(21);gait('trotM');to(1,6);gait('trot');to(1,1);to(10,1);
+fig(22);to(10,42);halt(5);
+  }},
+ club1:{group:'dre',score:"22 figures notées sur 10 (total /220) + notes d'ensemble = /300. Erreur de parcours : −1 % la 1<sup>re</sup> et la 2<sup>e</sup> fois, élimination à la 3<sup>e</sup>. Défaut de harnachement ou d'embouchure : −5 %.",name:'Club 1 Grand Prix',short:['Club 1','Grand Prix'],sizes:[60],
+  info:"Filet simple ou bride (filet obligatoire pour les chevaux de moins de 6 ans), gogue et éperons autorisés, stick en préparatoire uniquement.",
+  notes:"Rectangle 60 × 20 uniquement. Points de pénalité : 10 maximum. +2 % de bonus en filet simple sans enrênement si le total des juges atteint 67 %.",
+  ens:[['Allures (conformité des 3 allures, foulées stables et régulières)',1],['Impulsion (se porte en avant, transitions faciles, équilibre contrôlé)',1],['Disponibilité (sur la main, contact constant, acceptation des aides)',2],['Position et emploi des aides',2],['Tracé, passage des coins, transitions aux repères',2]],
+  legend:[['1 .6','Trot moyen / pas allongé'],['.15 .5','Cession'],['1.2 .4 .2 .4','Contre-galop'],['.3 .3','Contact rendu']],
+  figs:[
+ {steps:[['A','Entrée au trot de travail'],['X','Arrêt. Immobilité. Salut'],['XC','Rompre au trot de travail']],ideas:['Rectitude, fluidité de la transition descendante, mise en main','Les 4 pieds sont au sol pendant l\'arrêt, immobilité pendant le salut','Franchise du départ sur une demande discrète'],letters:['A','X','C']},
+ {steps:[['C','Piste à main droite'],['CMR','Trot de travail'],['RK','Changement de main au trot moyen'],['KA','Trot de travail']],ideas:['Activité, augmentation de l\'amplitude et maintien des foulées moyennes','La cadence reste contrôlée, les transitions sont fluides','Attitude stable, en main, contact constant sur les 2 rênes','Le passage des coins en M et K'],letters:['C','M','R','K','A']},
+ {steps:[['A','Doubler'],['L','Cercle à gauche de 10 m']],ideas:['Rectitude sur le doubler et qualité du tracé en A','Maintien de la cadence et de l\'activité','La taille du cercle et l\'incurvation'],letters:['A','L']},
+ {steps:[['LX','Trot de travail'],['XM','Cession à la jambe gauche']],ideas:['Maintien du rythme, mise en main conservée, contact constant','Le cheval se déplace parallèlement au grand côté, le corps droit'],letters:['L','X','M']},
+ {steps:[['MCHS','Trot de travail (passage des coins)']],ideas:['Cadence et activité sur des foulées stables et régulières','Encolure en pli interne dans les coins en M et H','Le tracé des coins est contrôlé'],letters:['M','C','H','S']},
+ {steps:[['SF','Changement de main au trot moyen'],['FA','Trot de travail']],ideas:['Activité, augmentation de l\'amplitude et maintien des foulées moyennes','La cadence reste contrôlée, les transitions sont fluides','Le passage du coin en F'],letters:['S','F','A']},
+ {steps:[['A','Doubler'],['L','Cercle à droite de 10 m']],ideas:['Rectitude sur le doubler et qualité du tracé en A','Maintien de la cadence et de l\'activité','La taille du cercle et l\'incurvation'],letters:['A','L']},
+ {steps:[['LX','Trot de travail'],['XH','Cession à la jambe droite']],ideas:['Maintien du rythme, mise en main conservée, contact constant','Le cheval se déplace parallèlement au grand côté, le corps droit'],letters:['L','X','H']},
+ {steps:[['HC','Trot de travail'],['CMR','Pas moyen']],ideas:['Maintien du rythme du trot et de l\'activité dans le coin','Aisance et fluidité du passage au pas','Encolure en pli interne dans les coins en M et H'],letters:['H','C','M','R']},
+ {steps:[['RVK','Changement de main au pas allongé']],ideas:['Le rythme du pas, l\'attitude dépliée vers le contact','La modification d\'amplitude'],letters:['R','V','K']},
+ {steps:[['KA','Pas moyen'],['A','Départ au galop de travail à gauche'],['AF','Galop de travail']],ideas:['Maintien du rythme du pas dans la transition au pas moyen','Franchise du départ au galop, sur une demande discrète','Mise en main conservée, contact constant sur les 2 rênes'],letters:['K','A','F']},
+ {steps:[['FP','Galop de travail'],['P','Cercle de 12 m']],ideas:['Le rythme du galop, activité et cadence','L\'incurvation, l\'équilibre, la taille et le tracé du cercle'],letters:['F','P']},
+ {steps:[['PR','Galop de travail (galoper droit)'],['RMCH','Galop de travail (passage des coins)']],ideas:['Le rythme du galop, foulées stables et régulières','Encolure droite ou léger pli interne, redressement du galop','Pli interne dans les coins en M et H, tracé des coins contrôlé'],letters:['P','R','M','C','H']},
+ {steps:[['HB','Changement de main'],['BP','Galop de travail'],['PV','Demi-cercle de 20 m au contre-galop']],ideas:['Le rythme de l\'allure','Activité et cadence sur des foulées stables et régulières','Mise en main conservée, le tracé est contrôlé'],letters:['H','B','P','V']},
+ {steps:[['VS','Galop de travail'],['S','Trot de travail'],['SH','Trot de travail']],ideas:['Fluidité de la transition au trot','Foulées stables et régulières après la transition','Le contrôle du tracé (rectitude) et le passage du coin'],letters:['V','S','H']},
+ {steps:[['HC','Pas moyen'],['C','Galop de travail à droite'],['CMR','Galop de travail']],ideas:['Maintien du rythme du pas dans la transition au pas moyen','Franchise du départ au galop, sur une demande discrète','Mise en main conservée, contact constant'],letters:['H','C','M','R']},
+ {steps:[['RS','Demi-cercle de 20 m : vers la ligne du milieu, avancer les mains vers la bouche du cheval et rompre le contact 2 à 3 foulées'],['SHCM','Galop de travail']],ideas:['Rythme du galop, cadence et foulées constantes','La rupture claire du contact','Le cheval garde son attitude, sans heurts à l\'avancée des mains et à la reprise de contact'],letters:['R','S','H','C','M']},
+ {steps:[['MR','Galop de travail'],['R','Cercle de 12 m']],ideas:['Le rythme du galop, activité et cadence','L\'incurvation, l\'équilibre, la taille et le tracé du cercle'],letters:['M','R']},
+ {steps:[['RP','Galop de travail (galoper droit)'],['PFAK','Galop de travail (passage des coins)']],ideas:['Le rythme du galop, foulées stables et régulières','Encolure droite ou léger pli interne, redressement du galop','Pli interne dans les coins en F et K, tracé des coins contrôlé'],letters:['R','P','F','A','K']},
+ {steps:[['KB','Changement de main'],['BR','Galop de travail'],['RS','Demi-cercle de 20 m au contre-galop']],ideas:['Le rythme de l\'allure','Activité et cadence sur des foulées stables et régulières','Mise en main conservée, le tracé est contrôlé'],letters:['K','B','R','S']},
+ {steps:[['SV','Galop de travail'],['V','Trot de travail'],['VKA','Trot de travail']],ideas:['Fluidité de la transition au trot, foulées régulières après la transition','Le contrôle du tracé (rectitude) et le passage du coin'],letters:['S','V','K','A']},
+ {steps:[['A','Doubler'],['AI','Trot de travail'],['I','Arrêt. Immobilité. Salut'],['—','Quitter la piste au pas libre, rênes longues']],ideas:['Rectitude, fluidité de la transition descendante, mise en main','Les 4 pieds sont au sol pendant l\'arrêt, immobilité pendant le salut'],letters:['A','I']}
+],
+  path:k=>{const {fig,gait,to,halt,circle,arc,PI}=k;
+fig(1);gait('trot');to(10,-3);to(10,30);halt(4);to(10,59);
+fig(2);to(19,59);to(19,42);gait('trotM');to(1,6);gait('trot');to(1,1);to(10,1);
+fig(3);to(10,18);circle(5,18,5,0,1);
+fig(4);to(10,30);gait('cession');to(19,53);gait('trot');to(19,54);
+fig(5);to(19,59);to(1,59);to(1,42);
+fig(6);gait('trotM');to(19,6);gait('trot');to(19,1);to(10,1);
+fig(7);to(10,18);circle(15,18,5,PI,-1);
+fig(8);to(10,30);gait('cession');to(1,53);gait('trot');to(1,54);
+fig(9);to(1,59);to(10,59);gait('pas');to(19,59);to(19,42);
+fig(10);gait('pasA');to(1,18);to(1,6);
+fig(11);gait('pas');to(1,1);to(10,1);gait('galop');to(19,1);to(19,6);
+fig(12);to(19,18);circle(13,18,6,0,1);
+fig(13);to(19,42);to(19,59);to(1,59);to(1,54);
+fig(14);to(19,30);to(19,18);gait('contre');arc(10,18,9,0,-PI);
+fig(15);gait('contre');to(1,42);gait('trot');to(1,54);
+fig(16);gait('pas');to(1,59);to(10,59);gait('galop');to(19,59);to(19,42);
+fig(17);arc(10,42,9,0,-.38*PI);gait('galopRC');arc(10,42,9,-.38*PI,-.62*PI);gait('galop');arc(10,42,9,-.62*PI,-PI);to(1,59);to(19,59);to(19,54);
+fig(18);to(19,42);circle(13,42,6,0,-1);
+fig(19);to(19,18);to(19,1);to(1,1);to(1,6);
+fig(20);to(19,30);gait('contre');to(19,42);arc(10,42,9,0,PI);
+fig(21);to(1,18);gait('trot');to(1,1);to(10,1);
+fig(22);to(10,42);halt(5);
+  }},
+ club2:{group:'dre',score:"22 figures notées sur 10 (total /220) + notes d'ensemble = /300. Erreur de parcours : −1 % la 1<sup>re</sup> et la 2<sup>e</sup> fois, élimination à la 3<sup>e</sup>. Défaut de harnachement ou d'embouchure : −5 %.",name:'Club 2 Grand Prix',
+  info:"Filet simple ou bride (filet obligatoire pour les chevaux de moins de 6 ans), gogue et éperons autorisés, cravache en préparatoire uniquement.",
+  short:['Club 2','Grand Prix'],sizes:[60,40],
+  notes:"Rectangle 60 × 20 ou 40 × 20. +2 points de bonus en filet simple sans enrênement.",
+  ens:[['Allures (franchise et régularité)',1],['Impulsion',1],['Acceptation et confiance (perméabilité, attitude, contact)',2],['Cavalier : position et fonctionnement, emploi des aides',2],['Cavalier : correction du tracé et passage des coins',2]],
+  legend:[['1 .6','Trot développé / pas allongé'],['.15 .5','Cession']],
+  figs:[
+ {steps:[['A','Entrée au trot de travail'],['X','Arrêt progressif. Immobilité. Salut'],['XC','Rompre au trot de travail'],['C','Piste à main gauche']],
+  ideas:['La rectitude','L\'immobilité et l\'aplomb','La franchise du départ','La régularité du trot'],letters:['A','X','C']},
+ {steps:[['HS','Trot de travail'],['S','Cercle à gauche de 12 m']],ideas:['Le tracé, l\'incurvation, l\'activité'],letters:['H','S']},
+ {steps:[['SF','Changement de main, obtenir quelques foulées de développement (trot enlevé autorisé)'],['FA','Trot de travail']],
+  ideas:['La régularité, l\'énergie et l\'amplitude moyenne des foulées'],letters:['S','F','A']},
+ {steps:[['A','Doubler'],['L–X','Entre L et X : cession à la jambe droite'],['S–H','Rejoindre la piste entre S et H']],
+  ideas:['La régularité du trot','Le parallélisme au grand côté','Le maintien de l\'activité, l\'attitude'],letters:['A','L','X','S','H']},
+ {steps:[['HCMR','Trot de travail'],['R','Cercle à droite de 12 m']],ideas:['La régularité du trot','Le tracé, l\'incurvation, l\'activité'],letters:['H','C','M','R']},
+ {steps:[['RK','Changement de main, obtenir quelques foulées de développement (trot enlevé autorisé)'],['KA','Trot de travail']],
+  ideas:['La régularité, l\'énergie et l\'amplitude moyenne des foulées'],letters:['R','K','A']},
+ {steps:[['A','Doubler'],['L–X','Entre L et X : cession à la jambe gauche'],['R–M','Rejoindre la piste entre R et M'],['MC','Trot de travail']],
+  ideas:['La régularité du trot','Le parallélisme au grand côté','Le maintien de l\'activité, l\'attitude','Franchise et fluidité de la transition (à C)'],letters:['A','L','X','R','M','C']},
+ {steps:[['CH','Pas moyen']],ideas:['Le rythme du pas'],letters:['C','H']},
+ {steps:[['HSP','Pas allongé']],ideas:['Le rythme du pas, l\'attitude dépliée, l\'amplitude','Les changements d\'attitude'],letters:['H','S','P']},
+ {steps:[['PFA','Pas moyen']],ideas:['Le rythme du pas, l\'attitude, l\'amplitude moyenne'],letters:['P','F','A']},
+ {steps:[['A','Départ au galop de travail à droite'],['AK','Galop de travail']],ideas:['Correction et franchise du départ'],letters:['A','K']},
+ {steps:[['KX','Ligne droite de K vers X'],['X','2 foulées droites sur la ligne du milieu, parallèles au grand côté'],['XH','Ligne droite de X vers H']],ideas:['La correction et la rectitude du galop','Le tracé'],letters:['K','X','H']},
+ {steps:[['HCM','Galop de travail'],['MB','Galop de travail (galoper droit)']],ideas:['Le passage des coins','La correction et la rectitude du galop','Le maintien de l\'activité, l\'attitude'],letters:['H','C','M','B']},
+ {steps:[['B','Cercle à droite de 15 m']],ideas:['La correction du galop','L\'incurvation, le tracé'],letters:['B']},
+ {steps:[['BK','Changement de main'],['vers L','Transition au trot de travail']],ideas:['Franchise et fluidité de la transition'],letters:['B','L','K']},
+ {steps:[['KA','Trot de travail'],['A','Départ au galop de travail à gauche'],['AF','Galop de travail']],ideas:['Correction et franchise du départ'],letters:['K','A','F']},
+ {steps:[['FX','Ligne droite de F vers X'],['X','2 foulées droites sur la ligne du milieu, parallèles au grand côté'],['XM','Ligne droite de X vers M']],ideas:['La correction et la rectitude du galop','Le tracé'],letters:['F','X','M']},
+ {steps:[['MCH','Galop de travail'],['HE','Galop de travail (galoper droit)']],ideas:['Le passage des coins','La correction et la rectitude du galop','Le maintien de l\'activité, l\'attitude'],letters:['M','C','H','E']},
+ {steps:[['E','Cercle à gauche de 15 m']],ideas:['La correction du galop','L\'incurvation, le tracé'],letters:['E']},
+ {steps:[['EF','Changement de main'],['vers L','Transition au trot de travail'],['FA','Trot de travail']],ideas:['Franchise et fluidité de la transition'],letters:['E','L','F','A']},
+ {steps:[['A','Doubler'],['AI','Trot de travail']],ideas:['Le tracé, la rectitude'],letters:['A','I']},
+ {steps:[['I','Arrêt progressif. Immobilité. Salut'],['—','Quitter la piste au pas libre, rênes longues']],ideas:['Fluidité de la transition','Correction de l\'arrêt, l\'immobilité'],letters:['I']}
+],
+  path:k=>{const {fig,gait,to,halt,circle,curve,line3,PI,e,sv,v,h,yi,l,top}=k;
+   const cs=l+(e-l)/3, ce=sv+(h-sv)*5/12;   // cession : entre L et X, rejoindre la piste entre S et H (ou R et M)
+fig(1);gait('trot');to(10,-3);to(10,e);halt(4);to(10,top);to(1,top);to(1,h);
+fig(2);to(1,sv);circle(7,sv,6,PI,1);
+fig(3);gait('trotD');to(19,6);gait('trot');to(19,1);to(10,1);
+fig(4);to(10,cs);gait('cession');to(1,ce);gait('trot');to(1,ce+1);
+fig(5);to(1,top);to(19,top);to(19,sv);circle(13,sv,6,0,-1);
+fig(6);gait('trotD');to(1,6);gait('trot');to(1,1);to(10,1);
+fig(7);to(10,cs);gait('cession');to(19,ce);gait('trot');to(19,ce+1);to(19,top);to(10,top);
+fig(8);gait('pas');to(1,top);to(1,h);
+fig(9);gait('pasA');to(1,sv);to(19,v);
+fig(10);gait('pas');to(19,1);to(10,1);
+fig(11);gait('galop');to(1,1);to(1,6);
+fig(12);line3([10,e-3.5],[10,e+3.5],[1,h]);
+fig(13);to(1,top);to(19,top);to(19,e);
+fig(14);circle(11.5,e,7.5,0,-1);
+fig(15);to(10,l);gait('trot');to(1,6);
+fig(16);to(1,1);to(10,1);gait('galop');to(19,1);to(19,6);
+fig(17);line3([10,e-3.5],[10,e+3.5],[19,h]);
+fig(18);to(19,top);to(1,top);to(1,e);
+fig(19);circle(8.5,e,7.5,PI,1);
+fig(20);to(10,l);gait('trot');to(19,6);to(19,1);to(10,1);
+fig(21);to(10,yi);
+fig(22);halt(5);
+  }},
+ club3:{group:'dre',score:"22 figures notées sur 10 (total /220) + notes d'ensemble = /300. Erreur de parcours : −1 % la 1<sup>re</sup> et la 2<sup>e</sup> fois, élimination à la 3<sup>e</sup>. Défaut de harnachement ou d'embouchure : −5 %.",name:'Club 3 Grand Prix – Poney 2 GP – Club E3 GP',
+  info:"Version du 01/09/2025, valable aussi en Poney 2 Grand Prix et Club E3 Grand Prix.",
+  short:['Club 3','Grand Prix'],sizes:[60,40],
+  notes:"La grille 2025 n'indique pas la taille du rectangle (la version 2022 autorisait 60 × 20 ou 40 × 20) : vérifie sur l'avant-programme. Points de pénalité : 10 maximum.",
+  ens:[['Allures (conformité des 3 allures, foulées stables et régulières)',1],['Impulsion (se porte en avant, transitions faciles, équilibre contrôlé)',1],['Disponibilité (sur la main, contact constant, acceptation des aides)',2],['Position et emploi des aides',2],['Tracé, passage des coins, transitions aux repères',2]],
+  legend:[['1 .6','Pas allongé']],
+  figs:[
+ {steps:[['A','Entrée au trot de travail'],['X','Transition au pas moyen puis arrêt. Immobilité. Salut'],['XC','Départ progressif au trot de travail']],ideas:['Le cheval est droit, la transition au pas est respectée (3 à 5 battues des antérieurs)','Immobile pendant le salut, les 4 pieds au sol','Départ franc sur une demande discrète'],letters:['A','X','C']},
+ {steps:[['C','Piste à main droite'],['CMR','Trot de travail'],['R','Cercle de 15 m']],ideas:['Mouvement en avant, foulées stables et régulières','Léger pli interne dans le coin et sur le cercle, contact constant','La taille du cercle'],letters:['C','M','R']},
+ {steps:[['RB','Trot de travail'],['BE','Doubler dans la largeur'],['E','Piste à main gauche'],['EV','Trot de travail']],ideas:['Foulées stables et constantes','Rectitude sur le doubler et qualité du tracé en B et E','Attitude stable, contact constant sur les 2 rênes'],letters:['R','B','E','V']},
+ {steps:[['V','Cercle de 15 m'],['VKA','Trot de travail']],ideas:['Mouvement en avant, foulées stables et régulières','Léger pli interne dans le coin et sur le cercle, contact constant','La taille du cercle'],letters:['V','K','A']},
+ {steps:[['AXC','Serpentine de 4 boucles']],ideas:['Mouvement en avant, foulées stables et régulières','Léger pli interne sur chaque boucle, contact constant','La taille des boucles et le tracé'],letters:['A','X','C']},
+ {steps:[['—','Fonctionnement, liant, emploi des aides au trot (note du cavalier sur toute la partie au trot)']],ideas:['Buste vertical, coudes semi-fléchis, mains ensemble et devant','Assiette et liant, jambes descendues','Aides stables et discrètes, mains vers la bouche du cheval et non vers l\'arrière'],letters:[]},
+ {steps:[['C','Transition au pas moyen'],['CM','Pas moyen']],ideas:['La transition est facile et fluide, le rythme du pas est respecté','Encolure en pli interne dans le coin de M'],letters:['C','M']},
+ {steps:[['MRV','Pas allongé']],ideas:['Le rythme du pas est respecté, attitude dépliée vers le contact','Différence d\'attitude bien visible'],letters:['M','R','V']},
+ {steps:[['VK','Pas moyen'],['KA','Trot de travail']],ideas:['Le rythme des allures','Départ au trot franc, sur une demande discrète'],letters:['V','K','A']},
+ {steps:[['A–F','Entre A et F : départ au galop de travail à gauche']],ideas:['Franchise du départ, rythme et attitude stable dans le départ','Le cavalier garde le contrôle du galop ensuite'],letters:['A','F']},
+ {steps:[['FB','Galop de travail (galoper droit)']],ideas:['Le rythme, mouvement en avant, foulées stables et régulières','Encolure droite ou en léger pli interne'],letters:['F','B']},
+ {steps:[['BEB','Cercle de 20 m'],['BR','Galop de travail']],ideas:['Léger pli interne, contrôle du galop, foulées constantes','Attitude stable, contact constant sur les 2 rênes'],letters:['B','E','R']},
+ {steps:[['RS','Demi-cercle de 20 m'],['vers G','Transition au trot de travail']],ideas:['Fluidité de la transition au trot, foulées régulières après','Attitude stable, contact constant','Le contrôle du tracé'],letters:['R','G','S']},
+ {steps:[['SE','Trot de travail'],['EFA','Changement de main au trot de travail']],ideas:['Foulées stables et constantes','Attitude stable, contact constant','Le tracé du coin et la rectitude'],letters:['S','E','F','A']},
+ {steps:[['A–K','Entre A et K : départ au galop de travail à droite']],ideas:['Franchise du départ, rythme et attitude stable dans le départ','Le cavalier garde le contrôle du galop ensuite'],letters:['A','K']},
+ {steps:[['KE','Galop de travail (galoper droit)']],ideas:['Le rythme, mouvement en avant, foulées stables et régulières','Encolure droite ou en léger pli interne'],letters:['K','E']},
+ {steps:[['EBE','Cercle de 20 m'],['ES','Galop de travail']],ideas:['Léger pli interne, contrôle du galop, foulées constantes','Attitude stable, contact constant sur les 2 rênes'],letters:['E','B','S']},
+ {steps:[['SR','Demi-cercle de 20 m'],['vers G','Transition au trot de travail']],ideas:['Fluidité de la transition au trot, foulées régulières après','Attitude stable, contact constant','Le contrôle du tracé'],letters:['S','G','R']},
+ {steps:[['—','Fonctionnement, liant, emploi des aides au galop (note du cavalier sur toute la partie au galop)']],ideas:['Buste vertical, coudes semi-fléchis, mains ensemble et devant','Assiette et liant, jambes descendues','Aides stables et discrètes, mains vers la bouche du cheval et non vers l\'arrière'],letters:[]},
+ {steps:[['RB','Trot de travail'],['BKA','Changement de main au trot de travail']],ideas:['Foulées stables et constantes, attitude stable, contact constant','Le tracé du coin et la rectitude'],letters:['R','B','K','A']},
+ {steps:[['A','Doubler'],['AI','Trot de travail']],ideas:['Foulées stables et constantes, attitude stable, contact constant','Rectitude'],letters:['A','I']},
+ {steps:[['I','Transition au pas moyen puis arrêt. Immobilité. Salut'],['—','Quitter la piste au pas libre, rênes longues']],ideas:['Le cheval est droit, la transition au pas est respectée (3 à 5 battues)','Fluidité de la transition','Immobile pendant le salut, les 4 pieds au sol'],letters:['I']}
+],
+  path:k=>{const {fig,gait,to,halt,note,circle,arc,loop,link,sCx,H,PI}=k;
+const e=k.e,sv=k.sv,v=k.v,h=k.h,yi=k.yi,top=k.top;
+fig(1);gait('trot');to(10,-3);to(10,e-4);gait('pas');to(10,e);halt(4);gait('trot');to(10,top);
+fig(2);to(19,top);to(19,sv);circle(11.5,sv,7.5,0,-1);
+fig(3);to(19,e);to(1,e);to(1,v);
+fig(4);circle(8.5,v,7.5,PI,1);to(1,1);to(10,1);
+fig(5);to(sCx(1),1);loop(1,-H,H);link(1);loop(2,-H,-3*H);link(2);loop(3,-H,H);link(3);loop(4,-H,-3*H);to(10,top);
+fig(6);note(3);
+fig(7);gait('pas');to(19,top);to(19,h);
+fig(8);gait('pasA');to(19,sv);to(1,v);
+fig(9);gait('pas');to(1,6);gait('trot');to(1,1);to(10,1);
+fig(10);to(14,1);gait('galop');to(19,1);to(19,6);
+fig(11);to(19,e);
+fig(12);arc(10,e,9,0,2*PI);to(19,sv);
+fig(13);arc(10,sv,9,0,H);gait('trot');arc(10,sv,9,H,PI);
+fig(14);to(1,e);to(19,6);to(19,1);to(10,1);
+fig(15);to(6,1);gait('galop');to(1,1);to(1,6);
+fig(16);to(1,e);
+fig(17);arc(10,e,9,PI,-PI);to(1,sv);
+fig(18);arc(10,sv,9,PI,H);gait('trot');arc(10,sv,9,H,0);
+fig(19);note(3);
+fig(20);to(19,e);to(1,6);to(1,1);to(10,1);
+fig(21);to(10,yi-4);
+fig(22);gait('pas');to(10,yi);halt(5);
+  }}
+};
+let REPKEY='club3',REP=REPS.club3,FIGS=REP.figs,N=FIGS.length;
+
+
+const dist=(a,b)=>Math.hypot(b.x-a.x,b.y-a.y);
+const NS='http://www.w3.org/2000/svg';
+const svg=document.getElementById('arena');
+const el=(tag,attrs,parent=svg)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent.appendChild(e);return e};
+function build(L){
+LEN=L;LET=LETS[L];PH=PHS[L];
+// ---------- Tracé (piste à 1 m de la lice) ----------
+P=[]; let F=1,G='trot';
+const fig=n=>{F=n}; const gait=g=>{G=g};
+const to=(x,y)=>P.push({x,y,f:F,g:G});
+const halt=s=>{const l=P[P.length-1];P.push({x:l.x,y:l.y,f:F,g:'arret',halt:s})};
+const note=s=>{const l=P[P.length-1];P.push({x:l.x,y:l.y,f:F,g:'note',halt:s})};
+const circle=(cx,cy,r,a0,dir)=>{for(let i=1;i<=40;i++){const a=a0+dir*2*Math.PI*i/40;to(cx+r*Math.cos(a),cy+r*Math.sin(a))}};
+const arc=(cx,cy,r,a0,a1)=>{const n=Math.max(4,Math.round(Math.abs(a1-a0)/(2*Math.PI)*40));for(let i=1;i<=n;i++){const a=a0+(a1-a0)*i/n;to(cx+r*Math.cos(a),cy+r*Math.sin(a))}};
+const H=Math.PI/2, PI=Math.PI;
+// serpentine 4 boucles : demi-cercles tangents à la piste, reliés par des droites parallèles au petit côté
+const SL=LEN-2, SR=SL/8;
+const sCx=k=>10+(k%2?1:-1)*(9-SR);              // centre de la boucle k (1 = côté F/B/M)
+const sCy=k=>1+SR*(2*k-1);
+const loop=(k,a0,a1)=>arc(sCx(k),sCy(k),SR,a0,a1); // angles : boucle impaire -H→H, paire -H→-3H
+const link=k=>to(sCx(k+1),sCy(k)+SR);             // droite entre la boucle k et k+1
+
+const e=LET.E[1],sv=LET.S[1],v=LET.V[1],h=LET.H[1],yi=LET.I[1],l=LET.L[1],top=LEN-1;
+// ligne en 3 sections : droite vers X, segment droit centré sur X (2 foulées), droite vers la sortie ; coins arrondis courts
+const line3=(p1,p2,p3,d=1.4)=>{const pts=[[P[P.length-1].x,P[P.length-1].y],p1,p2,p3];
+  for(let c=1;c<=2;c++){const a=pts[c-1],v=pts[c],b=pts[c+1];
+    const l1=Math.hypot(v[0]-a[0],v[1]-a[1]),l2=Math.hypot(b[0]-v[0],b[1]-v[1]);
+    const A=[v[0]-(v[0]-a[0])/l1*d,v[1]-(v[1]-a[1])/l1*d],B=[v[0]+(b[0]-v[0])/l2*d,v[1]+(b[1]-v[1])/l2*d];
+    to(A[0],A[1]);for(let i=1;i<=10;i++){const t=i/10,u=1-t;to(u*u*A[0]+2*u*t*v[0]+t*t*B[0],u*u*A[1]+2*u*t*v[1]+t*t*B[1])}}
+  to(p3[0],p3[1])};
+const curve=(p0,c,p2)=>{for(let i=1;i<=18;i++){const t=i/18,u=1-t;to(u*u*p0[0]+2*u*t*c[0]+t*t*p2[0],u*u*p0[1]+2*u*t*c[1]+t*t*p2[1])}};
+REP.path({fig,gait,to,halt,note,circle,arc,curve,line3,loop,link,sCx,H,PI,e,sv,v,h,yi,l,top});
+
+// arrondir les coins
+Q=[P[0]];
+for(let i=1;i<P.length-1;i++){
+  const a=P[i-1],v=P[i],b=P[i+1];
+  const l1=dist(a,v),l2=dist(v,b);
+  if(v.halt||b.halt||l1<.01||l2<.01){Q.push(v);continue}
+  const u1=[(v.x-a.x)/l1,(v.y-a.y)/l1],u2=[(b.x-v.x)/l2,(b.y-v.y)/l2];
+  if(u1[0]*u2[0]+u1[1]*u2[1]>.985){Q.push(v);continue}
+  const d=Math.min(2.6,l1/2,l2/2);
+  const A={x:v.x-u1[0]*d,y:v.y-u1[1]*d},B={x:v.x+u2[0]*d,y:v.y+u2[1]*d};
+  for(let k=0;k<=8;k++){const t=k/8,u=1-t,s=t<.5?v:b;
+    Q.push({x:u*u*A.x+2*u*t*v.x+t*t*B.x,y:u*u*A.y+2*u*t*v.y+t*t*B.y,f:s.f,g:s.g})}
+}
+Q.push(P[P.length-1]);
+
+// chronologie
+T=[0];
+// découpage fin (≤ 0,5 m) pour que les accélérations se voient
+{const R=[Q[0]];for(let k=1;k<Q.length;k++){const a=Q[k-1],b=Q[k],d=dist(a,b);
+  if(!b.halt&&d>.5){const n=Math.ceil(d/.5);for(let i=1;i<n;i++)R.push({x:a.x+(b.x-a.x)*i/n,y:a.y+(b.y-a.y)*i/n,f:b.f,g:b.g})}
+  R.push(b)}Q=R;}
+// vitesses : plafond par allure, accélération/décélération limitées (transitions et arrêts progressifs)
+{const n=Q.length,ACC=2.5,tv=[0],cap=[],vv=[];
+ for(let k=1;k<n;k++)tv[k]=Q[k].halt?0:GA[Q[k].g].v;
+ for(let k=0;k<n;k++)cap[k]=k===0?tv[1]:(k===n-1?tv[k]:Math.min(tv[k],tv[k+1]));
+ vv[0]=cap[0];for(let k=1;k<n;k++)vv[k]=Math.min(cap[k],Math.sqrt(vv[k-1]**2+2*ACC*dist(Q[k-1],Q[k])));
+ for(let k=n-2;k>=0;k--)vv[k]=Math.min(vv[k],Math.sqrt(vv[k+1]**2+2*ACC*dist(Q[k],Q[k+1])));
+ for(let k=1;k<n;k++){const s=Q[k];T.push(T[k-1]+(s.halt?s.halt:dist(Q[k-1],s)/Math.max(.15,(vv[k-1]+vv[k])/2)))}}
+TOTAL=T[T.length-1];
+figStart=[];figEnd=[];
+for(let k=1;k<Q.length;k++){const f=Q[k].f;if(figStart[f]===undefined)figStart[f]=T[k-1]}
+for(let f=1;f<=N;f++)figEnd[f]=f<N?figStart[f+1]:TOTAL;
+
+// ---------- Dessin SVG ----------
+svg.innerHTML='';svg.setAttribute('viewBox',`-3.2 -3.4 26.4 ${LEN+8.6}`);
+sy=y=>LEN-y;
+
+el('rect',{x:-.4,y:-.4,width:20.8,height:LEN+.8,rx:.4,fill:'#f7f4ee'});
+el('rect',{x:0,y:0,width:20,height:LEN,fill:'#e2cfa9'});
+for(const q of (LEN===60?[6,18,30,42,54]:[6,20,34]))el('line',{x1:0,x2:20,y1:sy(q),y2:sy(q),stroke:'#cdb88f','stroke-width':.08});
+el('line',{x1:10,x2:10,y1:0,y2:LEN,stroke:'#cdb88f','stroke-width':.1,'stroke-dasharray':'.6 .6'});
+
+const pathLayer=el('g',{});
+boards={};
+for(const [k,[x,y]] of Object.entries(LET)){
+  if(x===10&&y>0&&y<LEN){
+    const ph=PH.has(k);
+    el('circle',{cx:10,cy:sy(y),r:.28,fill:ph?'none':'#8a7653',stroke:'#8a7653','stroke-width':ph?.1:0});
+    el('text',{x:10.75,y:sy(y)+.45,'font-size':1.25,'font-weight':700,fill:ph?'#9c8a6a':'#7a6544','font-style':ph?'italic':'normal','font-family':'Atkinson Hyperlegible, sans-serif'}).textContent=k;
+    continue;
+  }
+  let bx=x,by=sy(y);
+  if(x===0)bx=-1.7; else if(x===20)bx=21.7;
+  if(k==='A')by=LEN+1.7; if(k==='C')by=-1.7;
+  const g=el('g',{});
+  const ph=PH.has(k);
+  const r=el('rect',{x:bx-1.15,y:by-1.15,width:2.3,height:2.3,rx:.35,fill:'#ffffff','fill-opacity':ph?.55:1,stroke:'#2b2b2b','stroke-width':.12,'stroke-dasharray':ph?'.3 .25':''},g);
+  const t=el('text',{x:bx,y:by+.55,'text-anchor':'middle','font-size':1.55,'font-weight':800,fill:'#1d1d1d','font-family':'Bricolage Grotesque, sans-serif'},g);
+  t.textContent=k;
+  boards[k]={r,t,ph};
+}
+
+// groupes de tracé par figure + allure
+const groups=[];
+let cur=null;
+for(let k=1;k<Q.length;k++){
+  const s=Q[k]; if(s.halt)continue;
+  const key=s.f+'|'+s.g;
+  if(!cur||cur.key!==key){cur={key,f:s.f,g:s.g,pts:[Q[k-1]]};groups.push(cur)}
+  cur.pts.push(s);
+}
+const famColor={walk:'var(--walk)',trot:'var(--trot)',canter:'var(--canter)'};
+lines=groups.map(gr=>{
+  const ga=GA[gr.g];
+  const pl=el('polyline',{points:gr.pts.map(p=>p.x.toFixed(2)+','+sy(p.y).toFixed(2)).join(' '),fill:'none',stroke:famColor[ga.fam],'stroke-width':.42,'stroke-linecap':'round','stroke-linejoin':'round'},pathLayer);
+  if(ga.dash)pl.setAttribute('stroke-dasharray',ga.dash);
+  return {pl,f:gr.f};
+});
+// marques d'arrêt
+for(let k=1;k<Q.length;k++)if(Q[k].halt&&Q[k].g!=='note'){
+  const m=el('g',{},pathLayer);
+  el('line',{x1:Q[k].x-1.1,x2:Q[k].x+1.1,y1:sy(Q[k].y),y2:sy(Q[k].y),stroke:'#1d1d1d','stroke-width':.35,'stroke-linecap':'round'},m);
+  lines.push({pl:m,f:Q[k].f});
+}
+
+// cheval vu de dessus
+horse=el('g',{});
+el('circle',{r:2.1,fill:'#ffffff','fill-opacity':.45},horse);
+hb=el('g',{},horse);
+el('ellipse',{cx:0,cy:.2,rx:.72,ry:1.35,fill:'#6b4329'},hb);
+el('ellipse',{cx:0,cy:-1.55,rx:.38,ry:.72,fill:'#6b4329'},hb);
+el('ellipse',{cx:0,cy:-.05,rx:.62,ry:.5,fill:'#22345e'},hb);
+el('circle',{cx:0,cy:-.05,r:.3,fill:'#f1f1f1'},hb);
+
+}
+// ---------- État ----------
+const $=id=>document.getElementById(id);
+let t=0,playing=false,curFig=1,ended=false,heading=-90,lastFig=0,lastGait='';
+let speed=1;
+try{const sp=localStorage.getItem('rep-speed');if(['0.5','1','1.5','2'].includes(sp)){speed=+sp;document.getElementById('speed').value=sp}}catch(e){}
+
+let chips=[];
+function buildChips(){$('chips').innerHTML='';chips=[];
+for(let f=1;f<=N;f++){
+  const b=document.createElement('button');b.className='chip';b.textContent=f;b.setAttribute('aria-label','Figure '+f);
+  const bar=document.createElement('span');bar.className='bar';b.appendChild(bar);
+  b.onclick=()=>goFig(f);$('chips').appendChild(b);chips.push({b,bar});
+}}
+
+function segAt(time){
+  let lo=1,hi=T.length-1;
+  while(lo<hi){const m=(lo+hi)>>1;if(T[m]<time)lo=m+1;else hi=m}
+  return lo;
+}
+function figAt(time){let f=1;for(let i=1;i<=N;i++)if(figStart[i]<=time+1e-9)f=i;return f}
+
+function renderPanel(){
+  const d=FIGS[curFig-1];
+  $('fignum').innerHTML=curFig+'<small> / '+N+'</small>';
+  $('steps').innerHTML=d.steps.map(([l,s])=>`<li><span class="lt">${l}</span><span>${s}</span></li>`).join('');
+  $('ideas').innerHTML=d.ideas.map(i=>`<li>${i}</li>`).join('')+'<li style="color:var(--muted)">Note sur 10 · coefficient 1</li>';
+  $('nextFig').innerHTML=curFig<N?`Ensuite (fig. ${curFig+1}) : <b>${FIGS[curFig].steps.map(s=>s[0]+' '+s[1].toLowerCase()).join(' · ')}</b>`:'Dernière figure de la reprise.';
+  for(const k in boards){const on=d.letters.includes(k);boards[k].r.setAttribute('fill',on?'#22345e':'#ffffff');boards[k].r.setAttribute('fill-opacity',on||!boards[k].ph?1:.55);boards[k].t.setAttribute('fill',on?'#ffffff':(boards[k].ph?'#7a7a7a':'#1d1d1d'))}
+  for(const L of lines){const on=L.f===curFig;L.pl.style.opacity=on?1:($('showAll').checked?.22:0);L.pl.setAttribute('stroke-width',on?.5:.36)}
+  chips.forEach((c,i)=>{c.b.classList.toggle('cur',i+1===curFig);c.b.classList.toggle('done',i+1<curFig);c.bar.style.width=i+1<curFig?'100%':'0'});
+  $('reveal').hidden=!$('hideText').checked;
+  $('card').classList.toggle('hidden-text',$('hideText').checked);
+}
+
+function render(){
+  const k=segAt(Math.min(t,TOTAL));
+  const a=Q[k-1],b=Q[k];
+  const span=T[k]-T[k-1]||1, fr=Math.max(0,Math.min(1,(t-T[k-1])/span));
+  const x=a.x+(b.x-a.x)*fr, y=a.y+(b.y-a.y)*fr;
+  if(dist(a,b)>.01){heading=Math.atan2(-(b.y-a.y),b.x-a.x)*180/Math.PI;if(b.g==='recul')heading+=180;}
+  horse.setAttribute('transform',`translate(${x.toFixed(3)},${sy(y).toFixed(3)})`);
+  hb.setAttribute('transform',`rotate(${(heading+90).toFixed(1)})`);
+  if(curFig!==lastFig){renderPanel();lastFig=curFig;$('card').classList.toggle('hidden-text',$('hideText').checked)}
+  const g=(t<=0)?'trot':b.g;
+  if(g!==lastGait){const ga=GA[g];const p=$('gait');p.textContent=ga.label;p.className='gait '+ga.fam;lastGait=g}
+  const fs=figStart[curFig],fe=figEnd[curFig];
+  chips[curFig-1].bar.style.width=Math.max(0,Math.min(100,(t-fs)/(fe-fs)*100))+'%';
+}
+
+function setStatus(s){$('status').textContent=s}
+function setPlay(p){
+  playing=p;$('play').textContent=p?'❚❚ Pause':'▶ '+(ended&&curFig<N?'Suivante':(t>=TOTAL-1e-3?'Revoir':'Lancer'));
+  if(p)setStatus('En mouvement…');
+}
+
+let prevTs=null;
+function tick(ts){
+  if(playing){
+    const dt=prevTs==null?0:Math.min(.1,(ts-prevTs)/1000)*speed;
+    let nt=t+dt;
+    if($('stopEach').checked&&nt>=figEnd[curFig]){
+      t=figEnd[curFig]-1e-6;ended=true;
+      if(curFig>=N){t=TOTAL;setPlay(false);setStatus('Reprise terminée. Salut final !')}
+      else{setPlay(false);setStatus(`Figure ${curFig} terminée. Récite-la, puis passe à la suivante.`)}
+    }else if(nt>=TOTAL){t=TOTAL;curFig=N;ended=true;setPlay(false);setStatus('Reprise terminée. Salut final !')}
+    else{t=nt;curFig=figAt(t)}
+  }
+  prevTs=ts;render();requestAnimationFrame(tick);
+}
+
+function goFig(f){
+  curFig=Math.max(1,Math.min(N,f));t=figStart[curFig];ended=false;lastGait='';
+  if(!playing)setStatus('Figure '+curFig+' — appuie sur Lancer.');
+  setPlay(playing);
+}
+$('play').onclick=()=>{
+  if(playing){setPlay(false);setStatus('En pause.');return}
+  if(t>=TOTAL-1e-3){goFig(1)}
+  else if(ended){ended=false;curFig=Math.min(N,curFig+1);t=figStart[curFig]}
+  setPlay(true);
+};
+$('prev').onclick=()=>goFig(ended?curFig:curFig-1);
+$('next').onclick=()=>goFig(curFig+1);
+$('speed').onchange=e=>{speed=+e.target.value;try{localStorage.setItem('rep-speed',e.target.value)}catch(_){}};
+$('hideText').onchange=()=>renderPanel();
+$('showAll').onchange=()=>renderPanel();
+$('reveal').onclick=()=>{$('card').classList.remove('hidden-text');$('reveal').hidden=true};
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='SELECT'||e.target.tagName==='INPUT')return;
+  if(e.code==='Space'){e.preventDefault();$('play').click()}
+  if(e.key==='ArrowRight')$('next').click();
+  if(e.key==='ArrowLeft')$('prev').click();
+});
+
+function applySize(){
+  const ok40=REP.sizes.includes(40);
+  $('size40').disabled=!ok40;$('size40Lbl').classList.toggle('off',!ok40);$('size40Note').textContent=ok40?'':'(non prévue pour cette reprise)';
+  const is40=ok40&&$('size40').checked;
+  build(is40?40:60);
+  $('sizeLbl').textContent=is40?'40 × 20':'60 × 20';
+  $('phNote').hidden=!is40;
+  $('arena').setAttribute('aria-label',`Carrière ${is40?40:60} par 20 avec le tracé de la reprise ${REP.name}`);
+  t=figStart[curFig];ended=false;lastGait='';
+  if(ok40)try{localStorage.setItem('rep-size',is40?'40':'60')}catch(e){}
+}
+function setRep(key){
+  REPKEY=key;REP=REPS[key];FIGS=REP.figs;N=FIGS.length;curFig=1;
+  $('repSelect').value=key;
+  $('repLbl').textContent=REP.name;$('repInfo').textContent=REP.info;$('repNotes').textContent=REP.notes;$('repScore').innerHTML=REP.score;$('chips').style.setProperty('--cols',Math.ceil(N/2));
+  $('lgExtra').innerHTML=REP.legend.map(([d,l])=>`<span><svg viewBox="0 0 4 1" aria-hidden="true"><line x1="0" y1=".5" x2="4" y2=".5" stroke="currentColor" stroke-width=".42" stroke-dasharray="${d}"/></svg>${l}</span>`).join('');
+  $('ensTable').innerHTML=REP.ens.map(([l,c])=>`<tr><td>${l}</td><td>${c}</td></tr>`).join('');
+  buildChips();
+  try{localStorage.setItem('rep-key',key)}catch(e){}
+}
+try{if(localStorage.getItem('rep-size')==='40')$('size40').checked=true}catch(e){}
+try{const k=localStorage.getItem('rep-key');if(REPS[k])REPKEY=k}catch(e){}
+$('size40').onchange=()=>{applySize();renderPanel();setPlay(playing);if(!playing)setStatus(`Carrière ${$('size40').checked?'40':'60'} × 20 — figure ${curFig}.`)};
+const ORDER=['elite','club1','club2','club3','club4','cceElite','cce1','cce3'];
+$('repSelect').innerHTML=[['dre','Dressage'],['cce','Complet (CCE) – dressage']].map(([g,lbl])=>`<optgroup label="${lbl}">${ORDER.filter(k=>REPS[k].group===g).map(k=>`<option value="${k}">${REPS[k].short[0]} ${REPS[k].short[1]}</option>`).join('')}</optgroup>`).join('');
+$('repSelect').onchange=e=>{const k=e.target.value;if(k===REPKEY)return;setPlay(false);setRep(k);applySize();t=0;lastFig=0;renderPanel();setPlay(false);setStatus(REP.name+' — appuie sur Lancer.')};
+setRep(REPKEY);
+applySize();
+renderPanel();lastFig=curFig;render();requestAnimationFrame(tick);
+})();
+</script>
+
+</body></html>
