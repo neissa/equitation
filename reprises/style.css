@@ -96,3 +96,7 @@ h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute
 .doclinks a,.doclist a{color:var(--accent);font-weight:700}
 .doclist{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:13.5px}
 .doc-name{color:var(--ink)}
+
+/* Boutons PDF, sous le sélecteur de reprise */
+.pdfbtns{display:flex;flex-wrap:wrap;gap:8px}
+.pdfbtns .btn{display:inline-flex;align-items:center;text-decoration:none}
