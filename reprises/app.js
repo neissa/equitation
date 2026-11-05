@@ -415,8 +415,52 @@ fig(21);to(10,yi-4);
 fig(22);gait('pas');to(10,yi);halt(5);
   }}
 };
+// Préliminaires (preliminaires.js) : reprises ajoutées avec tracé approximatif
+Object.assign(REPS,PRELIM);
 let REPKEY='club3',REP=REPS.club3,FIGS=REP.figs,N=FIGS.length;
 
+
+// ---------- Grilles officielles (PDF dans pdf/) ----------
+const PDF_DIR='pdf/';
+const DOCS=[
+  'Club 1 CCE - Poney 1 CCE.pdf',
+  'Club 1 Grand Prix - Club E1 Grand Prix - Poney Elite Grand Prix.pdf',
+  'Club 1 Libre - Club E1 Libre - Poney Elite Libre.pdf',
+  'Club 1 Préliminaire - Poney Elite Préliminaire.pdf',
+  'Club 2 Libre - Club E2 Libre - Poney 1 Libre.pdf',
+  'Club 2 Préliminaire - Poney 1 Préliminaire.pdf',
+  'Club 3 CCE - Poney 3 CCE.pdf',
+  'Club 3 Grand Prix - Poney 2 GP - Club E3 GP.pdf',
+  'Club 3 Libre - Poney 2 Libre.pdf',
+  'Club 3 Préliminaire - Poney 2 Préliminaire.pdf',
+  'Club 4 - Poney 3.pdf',
+  'Club 4 Carrousel.pdf',
+  'Club Elite CCE.pdf',
+  'Club Elite Grand Prix - Club E Elite Grand Prix -.pdf',
+  'Club Elite Libre - Club E Elite Libre - As Poney 1 Libre.pdf',
+  'Club Elite Préliminaire - As Poney 1 préliminaire.pdf',
+  'Poney 1 Grand Prix - Club E2 Grand Prix - Club 2 Grand Prix.pdf',
+];
+// Grille officielle associée à chaque reprise (clé = clé de REPS)
+const PDF_OF={
+  club1:'Club 1 Grand Prix - Club E1 Grand Prix - Poney Elite Grand Prix.pdf',
+  club2:'Poney 1 Grand Prix - Club E2 Grand Prix - Club 2 Grand Prix.pdf',
+  club3:'Club 3 Grand Prix - Poney 2 GP - Club E3 GP.pdf',
+  club4:'Club 4 - Poney 3.pdf',
+  cceElite:'Club Elite CCE.pdf',
+  cce1:'Club 1 CCE - Poney 1 CCE.pdf',
+  cce3:'Club 3 CCE - Poney 3 CCE.pdf',
+  elite:'Club Elite Grand Prix - Club E Elite Grand Prix -.pdf',
+  prel1:'Club 1 Préliminaire - Poney Elite Préliminaire.pdf',
+  prel2:'Club 2 Préliminaire - Poney 1 Préliminaire.pdf',
+  prel3:'Club 3 Préliminaire - Poney 2 Préliminaire.pdf',
+  prelElite:'Club Elite Préliminaire - As Poney 1 préliminaire.pdf'
+};
+// Tracé « par lettres » : chaque figure relie les repères de sa liste `r`, allure déduite du texte
+const gaitOf=s=>/galop/i.test(s)?(/contre/i.test(s)?'contre':'galop'):/pas allong/i.test(s)?'pasA':/\bpas\b/i.test(s)?'pas':/trot moyen/i.test(s)?'trotM':'trot';
+function routePath(k){const {fig,gait,to,halt}=k;
+  REP.figs.forEach((f,i)=>{fig(i+1);gait(gaitOf(f.steps[0][1]));for(const L of f.r){const c=LET[L];if(c)to(c[0],c[1])}if(f.h)halt(4)})}
+const pdfHref=f=>PDF_DIR+encodeURIComponent(f);
 
 const dist=(a,b)=>Math.hypot(b.x-a.x,b.y-a.y);
 const NS='http://www.w3.org/2000/svg';
@@ -449,7 +493,8 @@ const line3=(p1,p2,p3,d=1.4)=>{const pts=[[P[P.length-1].x,P[P.length-1].y],p1,p
     to(A[0],A[1]);for(let i=1;i<=10;i++){const t=i/10,u=1-t;to(u*u*A[0]+2*u*t*v[0]+t*t*B[0],u*u*A[1]+2*u*t*v[1]+t*t*B[1])}}
   to(p3[0],p3[1])};
 const curve=(p0,c,p2)=>{for(let i=1;i<=18;i++){const t=i/18,u=1-t;to(u*u*p0[0]+2*u*t*c[0]+t*t*p2[0],u*u*p0[1]+2*u*t*c[1]+t*t*p2[1])}};
-REP.path({fig,gait,to,halt,note,circle,arc,curve,line3,loop,link,sCx,H,PI,e,sv,v,h,yi,l,top});
+if(REP.path)REP.path({fig,gait,to,halt,note,circle,arc,curve,line3,loop,link,sCx,H,PI,e,sv,v,h,yi,l,top});
+else routePath({fig,gait,to,halt});
 
 // arrondir les coins
 Q=[P[0]];
@@ -659,14 +704,18 @@ function setRep(key){
   $('lgExtra').innerHTML=REP.legend.map(([d,l])=>`<span><svg viewBox="0 0 4 1" aria-hidden="true"><line x1="0" y1=".5" x2="4" y2=".5" stroke="currentColor" stroke-width=".42" stroke-dasharray="${d}"/></svg>${l}</span>`).join('');
   $('ensTable').innerHTML=REP.ens.map(([l,c])=>`<tr><td>${l}</td><td>${c}</td></tr>`).join('');
   buildChips();
+  const pdf=PDF_OF[key];
+  $('pdfLinks').hidden=!pdf;
+  if(pdf){$('pdfView').href=pdfHref(pdf);$('pdfDl').href=pdfHref(pdf);$('pdfDl').setAttribute('download',pdf)}
   try{localStorage.setItem('rep-key',key)}catch(e){}
 }
 try{if(localStorage.getItem('rep-size')==='40')$('size40').checked=true}catch(e){}
 try{const k=localStorage.getItem('rep-key');if(REPS[k])REPKEY=k}catch(e){}
 $('size40').onchange=()=>{applySize();renderPanel();setPlay(playing);if(!playing)setStatus(`Carrière ${$('size40').checked?'40':'60'} × 20 — figure ${curFig}.`)};
-const ORDER=['elite','club1','club2','club3','club4','cceElite','cce1','cce3'];
+const ORDER=['elite','club1','club2','club3','club4','prel1','prel2','prel3','prelElite','cceElite','cce1','cce3'];
 $('repSelect').innerHTML=[['dre','Dressage'],['cce','Complet (CCE) – dressage']].map(([g,lbl])=>`<optgroup label="${lbl}">${ORDER.filter(k=>REPS[k].group===g).map(k=>`<option value="${k}">${REPS[k].short[0]} ${REPS[k].short[1]}</option>`).join('')}</optgroup>`).join('');
 $('repSelect').onchange=e=>{const k=e.target.value;if(k===REPKEY)return;setPlay(false);setRep(k);applySize();t=0;lastFig=0;renderPanel();setPlay(false);setStatus(REP.name+' — appuie sur Lancer.')};
+$('docList').innerHTML=DOCS.map(f=>`<li><span class="doc-name">${f.replace(/\.pdf$/,'')}</span> <a href="${pdfHref(f)}" target="_blank" rel="noopener">Voir</a> · <a href="${pdfHref(f)}" download="${f}">Télécharger</a></li>`).join('');
 setRep(REPKEY);
 applySize();
 renderPanel();lastFig=curFig;render();requestAnimationFrame(tick);

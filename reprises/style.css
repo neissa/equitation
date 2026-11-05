@@ -90,3 +90,9 @@ h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute
 .lg-extra{display:contents}
 .lg-halt{display:inline-block;width:0;height:10px;border-top:0;border-left:3px solid currentColor}
 .ideas .note-line{color:var(--muted);list-style:none}
+
+/* Liens vers les grilles PDF */
+.doclinks{margin:0;font-size:13.5px}
+.doclinks a,.doclist a{color:var(--accent);font-weight:700}
+.doclist{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:13.5px}
+.doc-name{color:var(--ink)}

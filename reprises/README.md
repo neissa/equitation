@@ -46,3 +46,15 @@ Pour ajouter une reprise, créer une entrée dans `REPS` et ajouter sa clé dans
 
 - Les grilles 2025 ne précisent pas toujours la taille de la carrière : vérifier sur l'avant-programme avant de s'entraîner.
 - Le tracé est une reconstruction à partir des grilles ; il n'a pas été contrôlé contre les figures officielles. Les écarts sont à signaler et à corriger dans `REPS`.
+
+## Grilles officielles (PDF)
+
+Les grilles sont dans `pdf/`. La page affiche, pour la reprise choisie, un lien « Voir » et un lien « Télécharger ». La section « Toutes les grilles » liste l'ensemble des fichiers, y compris les programmes libres et le Carrousel, qui n'ont pas de tracé fixe et ne sont donc pas animés.
+
+L'association reprise → PDF est dans `PDF_OF` (`app.js`) ; la liste complète est dans `DOCS`.
+
+## Préliminaires (approximatifs)
+
+Les quatre Préliminaire (Club 1, Club 2, Club 3, Club Elite) sont dans `preliminaires.js`. Leur texte vient des grilles PDF, mais le découpage des figures et le tracé ont été reconstruits à partir d'une extraction partielle du PDF : ils sont **approximatifs**, à vérifier sur la grille officielle avant de s'en servir.
+
+Dans ce fichier, chaque figure est une ligne `PRELIM_FIG(repère, texte, route, idées, arrêt)`. La `route` est la liste des repères à relier ; le tracé est généré par `routePath` dans `app.js`, qui déduit l'allure du texte de la figure. Ce mode ne gère pas les cercles ni les volutes : ils sont représentés par des segments entre repères.
