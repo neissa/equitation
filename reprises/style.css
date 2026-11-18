@@ -10,8 +10,9 @@ img{max-width:100%}
   --bg:#eef1ec; --panel:#ffffff; --ink:#1c2620; --muted:#5a685f; --line:#d3dacf;
   --accent:#22345e; --accent-soft:#dde3f1;
   --walk:#4f8a2e; --trot:#2a67ad; --canter:#cf6d12;
-  --display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
-  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  /* Polices système uniquement : pas de chargement en ligne */
+  --display:"Trebuchet MS", "Gill Sans", Verdana, Arial, sans-serif;
+  --body:"Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#111618; --panel:#192125; --ink:#e6ece7; --muted:#9aa8a0; --line:#2b363a;

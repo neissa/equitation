@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Reprises Club Grand Prix</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#22345e">
 </head>
 <body>
 <div class="wrap">
@@ -47,8 +47,8 @@
         <select id="speed" aria-label="Vitesse">
           <option value="0.5">× 0,5 (lent)</option>
           <option value="1" selected>× 1 (réel)</option>
-          <option value="1.5">× 1,5</option>
-          <option value="2">× 2</option>
+          <option value="5">× 5</option>
+          <option value="10">× 10</option>
         </select>
       </div>
       <div class="toggles">
@@ -88,5 +88,11 @@
 </div>
 <script src="preliminaires.js"></script>
 <script src="app.js"></script>
+<script>
+// Hors ligne : enregistre sw.js (nécessite http(s) ou localhost, pas file://)
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
 </body>
 </html>

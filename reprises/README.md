@@ -6,7 +6,7 @@ Page web autonome pour apprendre une reprise de dressage figure par figure. Le c
 
 Ouvrir `index.html` dans un navigateur. Aucune installation ni serveur n'est nécessaire.
 
-Les polices (Bricolage Grotesque, Atkinson Hyperlegible) sont chargées depuis Google Fonts : sans connexion, la page reste utilisable avec des polices de secours.
+La page n'utilise que des polices installées sur le système (Trebuchet MS, Segoe UI, Helvetica Neue, Arial…) : aucune police n'est téléchargée en ligne. Elle s'affiche donc de la même façon hors ligne.
 
 ## Fichiers
 
@@ -20,7 +20,7 @@ Les polices (Bricolage Grotesque, Atkinson Hyperlegible) sont chargées depuis G
 
 - **Lancer / Pause** : bouton ou barre d'espace.
 - **Figure précédente / suivante** : boutons, flèches ← et →, ou les pastilles numérotées.
-- **Vitesse** : × 0,5, × 1, × 1,5 ou × 2.
+- **Vitesse** : × 0,5, × 1, × 5 ou × 10.
 - **Pause après chaque figure** : coché par défaut ; décocher pour enchaîner toute la reprise.
 - **Mode mémoire** : cache le texte des figures, à révéler au besoin.
 - **Voir tout le tracé** : affiche en pâle le reste du tracé.

@@ -544,7 +544,7 @@ for(const [k,[x,y]] of Object.entries(LET)){
   if(x===10&&y>0&&y<LEN){
     const ph=PH.has(k);
     el('circle',{cx:10,cy:sy(y),r:.28,fill:ph?'none':'#8a7653',stroke:'#8a7653','stroke-width':ph?.1:0});
-    el('text',{x:10.75,y:sy(y)+.45,'font-size':1.25,'font-weight':700,fill:ph?'#9c8a6a':'#7a6544','font-style':ph?'italic':'normal','font-family':'Atkinson Hyperlegible, sans-serif'}).textContent=k;
+    el('text',{x:10.75,y:sy(y)+.45,'font-size':1.25,'font-weight':700,fill:ph?'#9c8a6a':'#7a6544','font-style':ph?'italic':'normal','font-family':'Segoe UI, Helvetica Neue, Arial, sans-serif'}).textContent=k;
     continue;
   }
   let bx=x,by=sy(y);
@@ -553,7 +553,7 @@ for(const [k,[x,y]] of Object.entries(LET)){
   const g=el('g',{});
   const ph=PH.has(k);
   const r=el('rect',{x:bx-1.15,y:by-1.15,width:2.3,height:2.3,rx:.35,fill:'#ffffff','fill-opacity':ph?.55:1,stroke:'#2b2b2b','stroke-width':.12,'stroke-dasharray':ph?'.3 .25':''},g);
-  const t=el('text',{x:bx,y:by+.55,'text-anchor':'middle','font-size':1.55,'font-weight':800,fill:'#1d1d1d','font-family':'Bricolage Grotesque, sans-serif'},g);
+  const t=el('text',{x:bx,y:by+.55,'text-anchor':'middle','font-size':1.55,'font-weight':800,fill:'#1d1d1d','font-family':'Trebuchet MS, Gill Sans, Verdana, Arial, sans-serif'},g);
   t.textContent=k;
   boards[k]={r,t,ph};
 }
@@ -595,7 +595,7 @@ el('circle',{cx:0,cy:-.05,r:.3,fill:'#f1f1f1'},hb);
 const $=id=>document.getElementById(id);
 let t=0,playing=false,curFig=1,ended=false,heading=-90,lastFig=0,lastGait='';
 let speed=1;
-try{const sp=localStorage.getItem('rep-speed');if(['0.5','1','1.5','2'].includes(sp)){speed=+sp;document.getElementById('speed').value=sp}}catch(e){}
+try{const sp=localStorage.getItem('rep-speed');if(['0.5','1','5','10'].includes(sp)){speed=+sp;document.getElementById('speed').value=sp}}catch(e){}
 
 let chips=[];
 function buildChips(){$('chips').innerHTML='';chips=[];

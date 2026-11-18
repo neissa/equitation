@@ -1,0 +1,14 @@
+{
+  "name": "Reprises Club Grand Prix",
+  "short_name": "Reprises",
+  "description": "Apprendre une reprise de dressage figure par figure, hors ligne.",
+  "lang": "fr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef1ec",
+  "theme_color": "#22345e",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
