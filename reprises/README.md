@@ -47,6 +47,20 @@ Pour ajouter une reprise, créer une entrée dans `REPS` et ajouter sa clé dans
 - Les grilles 2025 ne précisent pas toujours la taille de la carrière : vérifier sur l'avant-programme avant de s'entraîner.
 - Le tracé est une reconstruction à partir des grilles ; il n'a pas été contrôlé contre les figures officielles. Les écarts sont à signaler et à corriger dans `REPS`.
 
+## Règlement (notes, pénalités, élimination, matériel)
+
+La section « Règlement » de `index.html` résume les règles FFE applicables au 01/09/2026 pour les épreuves Club, en quatre blocs repliables : comptage des points, pénalités, cas d'élimination, matériel et comportement. Elle existe en deux versions, `data-rules="dre"` (règlement Dressage) et `data-rules="cce"` (règlement CCE, test de dressage). `setRep` dans `app.js` affiche celle qui correspond au `group` de la reprise choisie.
+
+Les deux règlements sont dans `pdf/` (`reglement-dressage-2027-…pdf` et `reglement-cce-2027-…pdf`). Chaque bloc finit par des liens vers l'article cité, sous la forme `pdf/<fichier>#page=N`. L'en-tête pointe vers le règlement de la discipline choisie, et la liste « Règlements FFE » les propose en lecture ou en téléchargement. Les noms de fichiers sont dans `RULES` (`app.js`) et dans `PDFS` (`sw.js`, pour l'usage hors ligne).
+
+Le texte est écrit à la main d'après les règlements. Quand la FFE publie un nouveau règlement, il faut :
+
+1. remplacer les PDF ;
+2. mettre à jour les noms dans `RULES`, `sw.js` et les liens de `index.html` ;
+3. revérifier les numéros de page ;
+4. relire le texte ;
+5. incrémenter `VERSION` dans `sw.js`.
+
 ## Grilles officielles (PDF)
 
 Les grilles sont dans `pdf/`. La page affiche, pour la reprise choisie, un lien « Voir » et un lien « Télécharger ». La section « Toutes les grilles » liste l'ensemble des fichiers, y compris les programmes libres et le Carrousel, qui n'ont pas de tracé fixe et ne sont donc pas animés.

@@ -101,3 +101,22 @@ h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute
 /* Boutons PDF, sous le sélecteur de reprise */
 .pdfbtns{display:flex;flex-wrap:wrap;gap:8px}
 .pdfbtns .btn{display:inline-flex;align-items:center;text-decoration:none}
+
+/* Règlement : notes, pénalités, élimination, matériel (blocs repliables) */
+.rules-intro{margin:4px 0 8px;max-width:70ch}
+.rules details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0 12px;margin-top:8px;color:var(--ink)}
+.rules summary{cursor:pointer;font-family:var(--display);font-weight:800;font-size:15px;padding:11px 0;color:var(--accent)}
+.rules summary:focus-visible{outline:3px solid var(--trot);outline-offset:2px;border-radius:6px}
+.rules details[open]{padding-bottom:12px}
+.rules ul{margin:0 0 6px;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.rules h3{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:10px 0 4px}
+.rules .small{font-size:12.5px;color:var(--muted);margin:8px 0 0}
+.rules table.pen{max-width:none}
+.rules table.pen td:first-child{padding-right:12px}
+.rules table.pen td:last-child{width:34%;min-width:7em}
+.rules table.scale{max-width:360px}
+.rules table.scale td{text-align:left;font-weight:400;color:var(--ink);padding:3px 8px 3px 0}
+.rules table.scale td:nth-child(odd){font-weight:800;color:var(--accent);width:2.2em;font-variant-numeric:tabular-nums}
+.rules .doclinks{margin-top:10px}
+.rules .art{font-size:12.5px;color:var(--muted);margin:8px 0 0;border-top:1px dashed var(--line);padding-top:8px}
+.rules .art a{color:var(--accent);font-weight:700}

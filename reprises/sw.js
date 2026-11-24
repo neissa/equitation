@@ -1,8 +1,8 @@
 // Service worker : rend la page utilisable hors ligne.
-// Pré-cache la page, son code, le manifeste et toutes les grilles PDF ;
+// Pré-cache la page, son code, le manifeste, toutes les grilles PDF et les règlements ;
 // les polices Google sont mises en cache à la première visite.
 // Pour changer le contenu mis en cache, incrémenter VERSION.
-const VERSION = 'reprises-v2';
+const VERSION = 'reprises-v3';
 const CORE = [
   './',
   './index.html',
@@ -30,6 +30,8 @@ const PDFS = [
   "pdf/Club Elite Libre - Club E Elite Libre - As Poney 1 Libre.pdf",
   "pdf/Club Elite Préliminaire - As Poney 1 préliminaire.pdf",
   "pdf/Poney 1 Grand Prix - Club E2 Grand Prix - Club 2 Grand Prix.pdf",
+  "pdf/reglement-dressage-2027-applicable-au-01-09-2026_4.pdf",
+  "pdf/reglement-cce-2027-version-de-travail-applicable-au-01-09-2026_0.pdf",
 ];
 
 self.addEventListener('install', e => {

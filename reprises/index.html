@@ -23,7 +23,7 @@
     <div class="eyebrow"><span id="disc">Dressage</span> · <span id="repLbl">Club 3 Grand Prix</span> · rectangle <span id="sizeLbl">60 × 20</span></div>
     <h1>Apprendre ma reprise, figure par figure</h1>
     <p>Lance l'animation : le cheval parcourt chaque figure puis s'arrête. Relis, visualise, et passe à la suivante. Couleur du tracé = allure. <span id="repInfo"></span></p>
-    <p class="doclinks">Référence : <a href="https://www.ffe.com/pratiquer/disciplines/dressage" target="_blank" rel="noopener">Fédération Française d'Équitation – Dressage</a></p>
+    <p class="doclinks">Référence : <a href="https://www.ffe.com/pratiquer/disciplines/dressage" target="_blank" rel="noopener">Fédération Française d'Équitation – Dressage</a> · <a id="rulesPdf" href="pdf/reglement-dressage-2027-applicable-au-01-09-2026_4.pdf" target="_blank" rel="noopener">Règlement Dressage (PDF)</a></p>
     <p id="phNote" hidden><b>Lettres en pointillé (V, S, R, P, L, I) :</b> elles n'existent pas sur un 40 × 20. Elles sont placées à leur point repère, à mi-chemin entre la lettre de coin et E ou B (et entre X et G ou D pour I et L).</p>
   </header>
 
@@ -81,7 +81,185 @@
     <p><span id="repScore"></span> <span id="repNotes"></span></p>
   </section>
 
+  <section class="notes rules" id="rules" aria-labelledby="rulesTitle">
+    <h2 id="rulesTitle">Règlement : notes, pénalités, élimination</h2>
+    <p class="rules-intro">Résumé du règlement FFE en vigueur depuis le 1<sup>er</sup> septembre 2026, pour les épreuves Club. Le règlement officiel et l'avant-programme du concours font foi.</p>
+
+    <!-- ===== Dressage (règlement Dressage FFE, août 2026) ===== -->
+    <div data-rules="dre">
+      <details open>
+        <summary>Comment les points sont comptés</summary>
+        <ul>
+          <li>Chaque juge note chaque figure de <b>0 à 10</b>, avec des demi-points si besoin.</li>
+          <li>Certaines figures et notes d'ensemble ont un <b>coefficient</b> : la note est multipliée (× 2 donne 2 fois la note).</li>
+          <li>Pour chaque juge, on fait le total, on retire les pénalités en points, puis on convertit en <b>pourcentage</b> du maximum. On retire ensuite les pénalités en % (erreurs de tracé, harnachement).</li>
+          <li>Avec plusieurs juges, le résultat est la <b>moyenne des pourcentages</b>. Le plus haut pourcentage gagne. En cas d'égalité sur le podium, les meilleures notes d'ensemble départagent.</li>
+          <li><b>Bonus +2 %</b> en filet simple sans enrênement en Club 2 et Club 1 (Grand Prix et Préliminaire), si la moyenne des juges atteint au moins 67 %.</li>
+          <li><i>Exemple :</i> 204 points sur 300 = 68 %. Avec une erreur de tracé : 67 %. Avec deux : 66 %.</li>
+        </ul>
+        <table class="scale" aria-label="Échelle des notes">
+          <tr><td>10</td><td>Excellent</td><td>5</td><td>Passable</td></tr>
+          <tr><td>9</td><td>Très bien</td><td>4</td><td>Insuffisant</td></tr>
+          <tr><td>8</td><td>Bien</td><td>3</td><td>Assez mal</td></tr>
+          <tr><td>7</td><td>Assez bien</td><td>2</td><td>Mal</td></tr>
+          <tr><td>6</td><td>Acceptable</td><td>1</td><td>Très mal</td></tr>
+          <tr><td></td><td></td><td>0</td><td>Non exécuté</td></tr>
+        </table>
+        <p class="art">Règlement Dressage : <a href="pdf/reglement-dressage-2027-applicable-au-01-09-2026_4.pdf#page=33" target="_blank" rel="noopener">échelle des notes, p. 33</a> · <a href="pdf/reglement-dressage-2027-applicable-au-01-09-2026_4.pdf#page=40" target="_blank" rel="noopener">art. 9.1 classement, p. 40</a></p>
+      </details>
+
+      <details>
+        <summary>Pénalités</summary>
+        <table class="pen">
+          <tr><td><b>Erreur de tracé</b> (tourner du mauvais côté, oublier un mouvement), signalée ou non par la cloche</td><td>1<sup>re</sup> : −1 %<br>2<sup>e</sup> : −1 %<br>3<sup>e</sup> : élimination</td></tr>
+          <tr><td>Sortir par la porte en A restée ouverte</td><td>−1 % (erreur de tracé)</td></tr>
+          <tr><td><b>Erreur d'exécution</b> : salut non conforme (rênes dans une seule main), trot enlevé au lieu d'assis quand il n'est pas autorisé</td><td>−2 points</td></tr>
+          <tr><td>Entrer en A avant la cloche, ou plus de 45 secondes après</td><td>−2 points</td></tr>
+          <tr><td>Entrer sur la piste (même autour du rectangle) avec un stick</td><td>−2 points, et lâcher le stick</td></tr>
+          <tr><td>Entrer avec des protections (guêtres, bandes, cloches) ou un écouteur</td><td>−2 points, et les retirer à la demande du président, sinon élimination</td></tr>
+          <tr><td><b>Aide extérieure</b> : quelqu'un t'aide par la voix, des signes… une fois que tu es dans le rectangle</td><td>−5 points par intervention</td></tr>
+          <tr><td>Défaut de harnachement ou d'embouchure, gogue sans fourche ou trop serré, tenue ou éperons non conformes (contrôle à la sortie de piste)</td><td>−5 %</td></tr>
+          <tr><td>Ne pas passer à son ordre de passage</td><td>−5 points ou élimination</td></tr>
+          <tr><td>Reprise libre : temps dépassé ou insuffisant</td><td>−2 points</td></tr>
+        </table>
+        <p class="small">Les pénalités en % sont retirées du pourcentage final. Les pénalités en points sont retirées du total avant la conversion en pourcentage. Le trot enlevé est autorisé en Club 4 et Club 3, et pour les cavaliers de 60 ans et plus.</p>
+        <p class="art">Règlement Dressage : <a href="pdf/reglement-dressage-2027-applicable-au-01-09-2026_4.pdf#page=39" target="_blank" rel="noopener">tableau des pénalités, p. 39</a> · <a href="pdf/reglement-dressage-2027-applicable-au-01-09-2026_4.pdf#page=35" target="_blank" rel="noopener">art. 7.5 entrée en piste, p. 35</a></p>
+      </details>
+
+      <details>
+        <summary>Élimination</summary>
+        <ul>
+          <li>3<sup>e</sup> erreur de tracé.</li>
+          <li><b>Chute</b> du cheval ou du cavalier entre l'entrée en A et l'arrêt final. Le cavalier quitte la piste à pied.</li>
+          <li>Le cheval <b>sort du rectangle</b> en franchissant la lice des quatre membres (sauf en carrousel).</li>
+          <li><b>Défense</b> qui bloque la reprise plus de 20 secondes, ou qui met en danger le cavalier, le cheval, les juges ou le public (même avant l'entrée).</li>
+          <li><b>Boiterie</b> marquée. La décision du président du jury est sans appel.</li>
+          <li><b>Sang frais</b> dans la bouche ou sur les flancs. Ailleurs, le président décide ; une piqûre d'insecte n'élimine pas.</li>
+          <li><b>Brutalité ou mauvais traitement</b>, y compris à la détente : usage excessif du stick ou des éperons, muserolle trop serrée.</li>
+          <li>Utilisation de substances interdites (dopage).</li>
+          <li>Refuser de retirer des protections ou un écouteur à la demande du président.</li>
+          <li>Monter sur la piste de compétition en dehors de son passage, sans autorisation : disqualification.</li>
+        </ul>
+        <p class="art">Règlement Dressage : <a href="pdf/reglement-dressage-2027-applicable-au-01-09-2026_4.pdf#page=37" target="_blank" rel="noopener">art. 7.8 erreurs, boiterie, sang, p. 37</a> · <a href="pdf/reglement-dressage-2027-applicable-au-01-09-2026_4.pdf#page=38" target="_blank" rel="noopener">art. 7.9 chute, défense, aide extérieure, p. 38</a></p>
+      </details>
+
+      <details>
+        <summary>Matériel et comportement (Club)</summary>
+        <h3>Obligatoire</h3>
+        <ul>
+          <li><b>Casque</b> aux normes dès que l'on est à cheval dans l'enceinte du concours (détente comprise).</li>
+          <li>Tenue d'équitation libre, correcte et adaptée (pas de veste imposée en Club).</li>
+          <li>Selle, avec ou sans étriers. Filet avec sous-gorge ; bride avec sous-gorge, 4 rênes et muserolle.</li>
+          <li>Muserolle réglée pour laisser passer <b>deux doigts</b> sur le chanfrein.</li>
+        </ul>
+        <h3>Interdit sur la piste de compétition</h3>
+        <ul>
+          <li>Guêtres, bandes, cloches et toute protection (autorisées à la détente ; permises en Libre et carrousel).</li>
+          <li><b>Stick</b> (cravache), y compris autour du rectangle. Seule exception : les reprises CCE courues en concours de dressage (1,20 m, 1 m pour les poneys).</li>
+          <li>Écouteur pour le cavalier ; casque audio pour le cheval (partout dans le concours).</li>
+          <li>Œillères, bouchons d'oreilles, bonnet qui couvre les yeux, masque ou lunettes, cagoule magnétique.</li>
+          <li>Martingale à anneaux, rondelles, rênes latérales ou coulissantes.</li>
+          <li>Mors de moins de 1,0 cm de diamètre (poneys) ou 1,2 cm (chevaux), mors tout en cuir, anti-passe-langue, hackamore.</li>
+          <li>Fourreau de muserolle, bande de respect, rênes à poignées, étrier aimanté.</li>
+          <li><b>Bride</b> : seulement en Club Elite, Club 1, Grand Prix, Libre et Carrousel ; jamais pour un cheval ou poney de 5 ans et moins.</li>
+          <li><b>Enrênements</b> (triangle, gogue indépendant, gogue canter, gogue commandé) : autorisés sur filet simple de Club 4 à Club 1, interdits en Club Elite. Un seul à la fois ; le gogue indépendant passe par les anneaux du mors, avec sa fourche, et laisse le nez légèrement en avant à l'arrêt.</li>
+          <li>Monte sans mors : seulement en Libre et carrousel (licol en corde, sidepull ou cordelette).</li>
+        </ul>
+        <h3>Autorisé</h3>
+        <ul>
+          <li>Éperons (facultatifs) à branches lisses ; molettes lisses qui tournent librement. Leur taille est limitée en Club et Poney.</li>
+          <li>Bonnet non attaché à la muserolle (y compris anti-bruit), filet de nez, tresses, collier de chasse, bricole, croupière.</li>
+          <li>La <b>voix du cavalier</b>, avec modération. Personne d'autre ne peut aider.</li>
+          <li>Faire <b>dicter</b> la reprise, sans rien ajouter ni répéter (sauf en championnat).</li>
+          <li>Retirer sa veste s'il fait très chaud, ajouter un blouson s'il pleut.</li>
+        </ul>
+        <p class="art">Règlement Dressage : <a href="pdf/reglement-dressage-2027-applicable-au-01-09-2026_4.pdf#page=19" target="_blank" rel="noopener">art. 4.3 tenue, éperons, stick, p. 19</a> · <a href="pdf/reglement-dressage-2027-applicable-au-01-09-2026_4.pdf#page=22" target="_blank" rel="noopener">art. 5.4 harnachement, p. 22</a></p>
+      </details>
+    </div>
+
+    <!-- ===== CCE (règlement CCE FFE, août 2026, test de dressage) ===== -->
+    <div data-rules="cce" hidden>
+      <details open>
+        <summary>Comment les points sont comptés</summary>
+        <ul>
+          <li>Chaque juge note chaque figure de <b>0 à 10</b>, multipliée par son coefficient, puis les notes d'ensemble.</li>
+          <li>Pour chaque juge : total des points, <b>moins les pénalités</b>, divisé par le maximum, × 100 = pourcentage. Avec plusieurs juges, on fait la moyenne.</li>
+          <li>En complet, ce pourcentage devient des <b>points de pénalité</b> : en Club, (100 − %) × 1,5. <b>Moins on a de points, mieux c'est</b>. Ils s'ajoutent à ceux du cross et du saut d'obstacles.</li>
+          <li><i>Exemple :</i> 66,55 % donne (100 − 66,55) × 1,5 = <b>50,2 points</b>.</li>
+          <li><b>Bonus 2 points</b> en filet simple sans enrênement en Club 3, Club 2 et Club 1.</li>
+          <li>Moins de <b>45 %</b> de moyenne au dressage : retrait réglementaire.</li>
+        </ul>
+        <p class="art">Règlement CCE : <a href="pdf/reglement-cce-2027-version-de-travail-applicable-au-01-09-2026_0.pdf#page=44" target="_blank" rel="noopener">art. 9.1 calcul du dressage, p. 44</a></p>
+      </details>
+
+      <details>
+        <summary>Pénalités</summary>
+        <table class="pen">
+          <tr><td><b>Erreur de parcours</b>, signalée ou non par la cloche</td><td>1<sup>re</sup> : −2 points<br>2<sup>e</sup> : −4 points<br>3<sup>e</sup> : élimination</td></tr>
+          <tr><td>Ne pas saluer à l'arrêt d'entrée ou de fin (le salut se fait rênes dans une seule main)</td><td>Compte comme une erreur de parcours</td></tr>
+          <tr><td>Entrer plus de 45 secondes après le signal</td><td>Compte comme une erreur de parcours</td></tr>
+          <tr><td>Trotter enlevé quand le protocole demande assis</td><td>Une erreur à chaque figure</td></tr>
+          <tr><td>Sortir par l'entrée en A ouverte ou par une lice discontinue</td><td>Compte comme une erreur de parcours</td></tr>
+          <tr><td>Entrer avant la cloche</td><td>−2 points</td></tr>
+          <tr><td>Entrer avec la cravache autour ou dans le rectangle</td><td>−2 points</td></tr>
+          <tr><td>Défaut de harnachement (entrer avec des protections…)</td><td>−2 points</td></tr>
+          <tr><td>Défaut de tenue</td><td>−2 points</td></tr>
+          <tr><td>Aide de complaisance</td><td>−10 points</td></tr>
+          <tr><td>Ne pas partir à son ordre ou à son horaire sans autorisation du jury</td><td>−10 points</td></tr>
+        </table>
+        <p class="small">Les pénalités sont retirées du total de chaque juge, avant le calcul du pourcentage.</p>
+        <p class="art">Règlement CCE : <a href="pdf/reglement-cce-2027-version-de-travail-applicable-au-01-09-2026_0.pdf#page=41" target="_blank" rel="noopener">art. 8.2 pénalités, p. 41</a> · <a href="pdf/reglement-cce-2027-version-de-travail-applicable-au-01-09-2026_0.pdf#page=34" target="_blank" rel="noopener">déroulement du test, p. 34</a></p>
+      </details>
+
+      <details>
+        <summary>Élimination</summary>
+        <ul>
+          <li>3<sup>e</sup> erreur de parcours.</li>
+          <li><b>Chute</b> du cheval ou du cavalier.</li>
+          <li><b>Sortie de la carrière</b> en franchissant les lices, quatre pieds dehors.</li>
+          <li>Garder la <b>cravache</b> après la 3<sup>e</sup> figure.</li>
+          <li>Le cheval refuse d'avancer pendant plus de <b>20 secondes</b>.</li>
+          <li><b>Boiterie</b> caractérisée.</li>
+        </ul>
+        <p class="art">Règlement CCE : <a href="pdf/reglement-cce-2027-version-de-travail-applicable-au-01-09-2026_0.pdf#page=41" target="_blank" rel="noopener">art. 8.2 pénalités, p. 41</a></p>
+      </details>
+
+      <details>
+        <summary>Matériel et comportement (Club)</summary>
+        <h3>Obligatoire</h3>
+        <ul>
+          <li><b>Casque</b> ; tenue d'équitation libre ou aux couleurs du club.</li>
+          <li>Selle anglaise avec étriers (selle d'amazone possible jusqu'en Club 2).</li>
+          <li><b>Embouchure</b> : la monte sans mors est interdite. Une seule paire de rênes sur un mors simple.</li>
+          <li>Bottes ou boots avec un vrai talon (12 mm au moins).</li>
+        </ul>
+        <h3>Interdit pendant le test de dressage</h3>
+        <ul>
+          <li><b>Cravache</b> sur la piste et autour (autorisée à la détente : 1,20 m, 1 m en Poney).</li>
+          <li>Écouteurs (une oreillette seulement, et seulement à la détente).</li>
+          <li>Protections (guêtres, bandes), couvre-selle.</li>
+          <li>Martingales, rondelles, et tout enrênement, sauf le <b>gogue</b> (fixe, commandé en 4 rênes ou attaché aux rênes) en Club 3, Club 2 et Club 1.</li>
+          <li>Anti-passe-langue ou langue attachée.</li>
+          <li>Œillères, bouchons d'oreilles, masque anti-mouches, bonnet attaché à la muserolle qui bloque les oreilles, cagoule magnétique.</li>
+          <li>Bande de respect, rênes à poignées, étrivière autour de l'encolure, fourreau de muserolle.</li>
+          <li>Éperons de plus de 2 cm en Poney.</li>
+        </ul>
+        <h3>Autorisé</h3>
+        <ul>
+          <li>Collier de chasse, bricole, filet de nez ou cache-naseaux.</li>
+          <li>Bonnet en néoprène ou matelassé, en extérieur seulement, sans couvrir les yeux.</li>
+        </ul>
+        <p class="small">La reprise de complet <b>ne peut pas être dictée</b> : il faut la connaître par cœur.</p>
+        <p class="art">Règlement CCE : <a href="pdf/reglement-cce-2027-version-de-travail-applicable-au-01-09-2026_0.pdf#page=14" target="_blank" rel="noopener">tenue et cravache, p. 14</a> · <a href="pdf/reglement-cce-2027-version-de-travail-applicable-au-01-09-2026_0.pdf#page=16" target="_blank" rel="noopener">harnachement en dressage, p. 16</a></p>
+      </details>
+    </div>
+
+    <p class="doclinks">Textes complets (FFE, applicables au 01/09/2026) : règlement Dressage <a href="pdf/reglement-dressage-2027-applicable-au-01-09-2026_4.pdf" target="_blank" rel="noopener">Voir</a> · <a href="pdf/reglement-dressage-2027-applicable-au-01-09-2026_4.pdf" download>Télécharger</a> — règlement CCE <a href="pdf/reglement-cce-2027-version-de-travail-applicable-au-01-09-2026_0.pdf" target="_blank" rel="noopener">Voir</a> · <a href="pdf/reglement-cce-2027-version-de-travail-applicable-au-01-09-2026_0.pdf" download>Télécharger</a>.</p>
+  </section>
+
   <section class="notes">
+    <h2>Règlements FFE (PDF)</h2>
+    <ul class="doclist" id="ruleList"></ul>
     <h2>Toutes les grilles (PDF)</h2>
     <ul class="doclist" id="docList"></ul>
   </section>

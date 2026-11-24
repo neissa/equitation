@@ -461,6 +461,11 @@ const gaitOf=s=>/galop/i.test(s)?(/contre/i.test(s)?'contre':'galop'):/pas allon
 function routePath(k){const {fig,gait,to,halt}=k;
   REP.figs.forEach((f,i)=>{fig(i+1);gait(gaitOf(f.steps[0][1]));for(const L of f.r){const c=LET[L];if(c)to(c[0],c[1])}if(f.h)halt(4)})}
 const pdfHref=f=>PDF_DIR+encodeURIComponent(f);
+// Règlements FFE (dans pdf/), un par discipline ; liens d'article dans index.html (#page=N)
+const RULES={
+  dre:{name:'Règlement Dressage',file:'reglement-dressage-2027-applicable-au-01-09-2026_4.pdf'},
+  cce:{name:'Règlement CCE',file:'reglement-cce-2027-version-de-travail-applicable-au-01-09-2026_0.pdf'}
+};
 
 const dist=(a,b)=>Math.hypot(b.x-a.x,b.y-a.y);
 const NS='http://www.w3.org/2000/svg';
@@ -700,6 +705,9 @@ function setRep(key){
   REPKEY=key;REP=REPS[key];FIGS=REP.figs;N=FIGS.length;curFig=1;
   $('repSelect').value=key;
   $('disc').textContent=REP.group==='cce'?'Dressage du complet (CCE)':'Dressage';
+  // Règlement : affiche la version Dressage ou CCE selon la reprise
+  document.querySelectorAll('[data-rules]').forEach(el=>{el.hidden=el.dataset.rules!==REP.group});
+  const rule=RULES[REP.group];$('rulesPdf').href=pdfHref(rule.file);$('rulesPdf').textContent=rule.name+' (PDF)';
   $('repLbl').textContent=REP.name;$('repInfo').textContent=REP.info;$('repNotes').textContent=REP.notes;$('repScore').innerHTML=REP.score;$('chips').style.setProperty('--cols',Math.ceil(N/2));
   $('lgExtra').innerHTML=REP.legend.map(([d,l])=>`<span><svg viewBox="0 0 4 1" aria-hidden="true"><line x1="0" y1=".5" x2="4" y2=".5" stroke="currentColor" stroke-width=".42" stroke-dasharray="${d}"/></svg>${l}</span>`).join('');
   $('ensTable').innerHTML=REP.ens.map(([l,c])=>`<tr><td>${l}</td><td>${c}</td></tr>`).join('');
@@ -715,6 +723,7 @@ $('size40').onchange=()=>{applySize();renderPanel();setPlay(playing);if(!playing
 const ORDER=['elite','club1','club2','club3','club4','prel1','prel2','prel3','prelElite','cceElite','cce1','cce3'];
 $('repSelect').innerHTML=[['dre','Dressage'],['cce','Complet (CCE) – dressage']].map(([g,lbl])=>`<optgroup label="${lbl}">${ORDER.filter(k=>REPS[k].group===g).map(k=>`<option value="${k}">${REPS[k].short[0]} ${REPS[k].short[1]}</option>`).join('')}</optgroup>`).join('');
 $('repSelect').onchange=e=>{const k=e.target.value;if(k===REPKEY)return;setPlay(false);setRep(k);applySize();t=0;lastFig=0;renderPanel();setPlay(false);setStatus(REP.name+' — appuie sur Lancer.')};
+$('ruleList').innerHTML=Object.values(RULES).map(r=>`<li><span class="doc-name">${r.name} FFE, applicable au 01/09/2026</span> <a href="${pdfHref(r.file)}" target="_blank" rel="noopener">Voir</a> · <a href="${pdfHref(r.file)}" download="${r.file}">Télécharger</a></li>`).join('');
 $('docList').innerHTML=DOCS.map(f=>`<li><span class="doc-name">${f.replace(/\.pdf$/,'')}</span> <a href="${pdfHref(f)}" target="_blank" rel="noopener">Voir</a> · <a href="${pdfHref(f)}" download="${f}">Télécharger</a></li>`).join('');
 setRep(REPKEY);
 applySize();
